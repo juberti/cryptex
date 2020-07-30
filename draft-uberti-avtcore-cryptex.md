@@ -51,6 +51,25 @@ Encryption and Decryption
 Security Considerations
 =======================
 
+The specification does not change how SRTP authentication works in any
+way. It only changes encryption to expand the portion of the packet that
+is encrypted. Given theses two points, the authors do not feel it in any
+way makes the security worse than SRTP.
+
+This extension improves the security of SRTP by encrypting all the
+header extension data other than the total length of all the combined
+header extensions. It also encrypts the values of the CSRC identifiers
+but not the number of identifiers.
+
+The leaves unencrypted the following items which are not encrypted by
+SRTP: the version of RTP, total length of extension, amount of padding,
+number of CSRC, the maker bit, the payload type number, the RTP sequence
+number, timestamp, and SSRC. These values are either need to be encrypt
+for SRTP processing or have very little information that has any value
+in encrypting. If any of theses values need to be encrypted, DTLS-SRTP
+is likely the wrong protocol to use and instead the RTP should be sent
+over a fully encrypted protocol such as DTLS or TLS.
+
 IANA Considerations
 ===================
 
