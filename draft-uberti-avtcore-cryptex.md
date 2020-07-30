@@ -19,7 +19,6 @@ author:
   ins: C. Jennings
   name: Cullen Jennings
   org: Cisco
-  country: Canada
   email: fluffy@iii.ca
 
 normative:
