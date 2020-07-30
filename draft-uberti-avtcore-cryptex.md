@@ -48,6 +48,31 @@ RTP Header Processing
 Encryption and Decryption
 =========================
 
+## Sending
+
+When encrypting an RTP packet, it is identical to {{RFC3711}} other
+than in step 5 of Section 3.3, instead of encrypting the RTP Payload, a
+slightly different set of bits is encrypted.
+
+For RTP packets with the x bit set to 0, the bits to encrypt consist of
+all of the RTP header after the first 12 bytes of the RTP header and the
+RTP Payload.
+
+For RTP packets with the x bit set to 1, the bytes to encrypt are formed
+by skipping the first 12 bytes of the packet, including the rest of the
+RTP header bytes up up to the start of the RTP header extensions,
+skipping the first 4 bytes of the header extension, then include the rest
+of header extension bytes and the RTP Payload.
+
+
+## Receiving
+
+When decrypting an RTP packet, it is identical to {{RFC3711}} other
+than in step 6 of Section 3.3, instead of decrypting the RTP Payload,
+the bytes decrypted match the bytes to be encrypt in the previous
+section.
+
+
 Security Considerations
 =======================
 
