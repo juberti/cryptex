@@ -45,6 +45,22 @@ Signaling
 RTP Header Processing
 =====================
 
+## Sending
+
+When sending an RTP packet that requires any header extensions to a
+destination that has negotiated header encryption, the header extensions
+be encapsulated inside a {{RFC8285}} header extension.
+
+The 16 bit RTP header extension tag MUST be changed from 0xBEDE to
+0xC0DE to indicate that it will be encrypted.
+
+## Receiving
+
+After decrypting and authenticating the packet, if there is an RPT
+header extension with a 16 bit RTP header extension tag of 0xC0DE, it
+MUST be changed from 0xC0DE to 0xBEDE so that it can b processed as a
+normal {{RFC8285}} header extension.
+
 Encryption and Decryption
 =========================
 
@@ -53,6 +69,8 @@ Security Considerations
 
 IANA Considerations
 ===================
+
+TODO: allocate RTP header extension code 0xC0DE to this spec
 
 Acknowledgements
 ================
