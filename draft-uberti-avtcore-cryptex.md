@@ -58,7 +58,7 @@ The 16 bit RTP header extension tag MUST be changed from 0xBEDE to
 
 After decrypting and authenticating the packet, if there is an RPT
 header extension with a 16 bit RTP header extension tag of 0xC0DE, it
-MUST be changed from 0xC0DE to 0xBEDE so that it can b processed as a
+MUST be changed from 0xC0DE to 0xBEDE so that it can be processed as a
 normal {{RFC8285}} header extension.
 
 Encryption and Decryption
