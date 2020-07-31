@@ -52,7 +52,7 @@ Introduction
 The Secure Real-time Transport Protocol [RFC3711] mechanism provides message
 authentication for the entire RTP packet, but only encrypts the RTP payload.
 This has not historically been a problem, as much of the information carried
-in the header is has minimal sensitivity (e.g., RTP timestamp); in addition,
+in the header has minimal sensitivity (e.g., RTP timestamp); in addition,
 certain fields  need to remain as cleartext because they are used for key
 scheduling (e.g., RTP SSRC and sequence number).
 
