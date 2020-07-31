@@ -1,6 +1,7 @@
 ---
 docname: draft-uberti-avtcore-cryptex-latest
 title: Completely Encrypting RTP Header Extensions and Contributing Sources
+category: std
 ipr: trust200902
 area: ART
 workgroup: AVTCORE
