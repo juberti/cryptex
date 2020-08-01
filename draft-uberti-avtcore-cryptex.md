@@ -1,5 +1,5 @@
 ---
-docname: draft-uberti-avtcore-cryptex-latest
+docname: draft-uberti-avtcore-cryptex-00
 title: Completely Encrypting RTP Header Extensions and Contributing Sources
 category: std
 ipr: trust200902
@@ -26,8 +26,10 @@ normative:
   RFC2119:
   RFC3711:
   RFC8285:
-  
+
 informative:
+  RFC6464:
+  RFC6465:
   RFC6904:
 
 --- abstract
@@ -45,7 +47,7 @@ facilitate deployment.
 
 --- middle
 
-Introduction 
+Introduction
 ============
 
 ## Problem Statement
@@ -58,13 +60,13 @@ certain fields need to remain as cleartext because they are used for key
 scheduling (e.g., RTP SSRC and sequence number).
 
 However, as noted in [RFC6904], the security requirements can be different for
-information carried in RTP header extensions, including the per-packet sound 
+information carried in RTP header extensions, including the per-packet sound
 levels defined in [RFC6464] and [RFC6465], which are specifically noted as
 being sensitive in the Security Considerations section of those RFCs.
 
-In addition to the contents of the header extensions, there are now enough 
+In addition to the contents of the header extensions, there are now enough
 header extensions in active use that the header extension identifiers
-themselves can provide meaningful information in terms of determining the 
+themselves can provide meaningful information in terms of determining the
 identity of endpoint and/or application. Accordingly, these identifiers
 can be considered at least slightly sensitive.
 
@@ -75,22 +77,27 @@ an otherwise secure conference call.
 ## Previous Solutions
 
 [RFC6904] was proposed in 2013 as a solution to the problem of unprotected
-header extension values. However, it has not seen widespread adoption, and 
+header extension values. However, it has not seen significant adoption, and
 has a few technical shortcomings.
 
-First, the mechanism is complicated. Since it allows encryption to be 
+First, the mechanism is complicated. Since it allows encryption to be
 negotiated on a per-extension basis, a fair amount of signaling logic is
 required. And in the SRTP layer, a somewhat complex transform is required
 to allow only the selected header extension values to be encrypted. One of
 the most popular SRTP implementations had a significant bug in this area
 that was not detected for five years.
 
-Second, it bloats the header extension space. Because each extension must
+Second, it only protects the header extension values, and not their ids or
+lengths. It also does not protect the CSRCs. As noted above, this leaves
+a fair amount of potentially sensitive information exposed.
+
+Third, it bloats the header extension space. Because each extension must
 be offered in both unencrypted and encrypted forms, twice as many header
 extensions must be offered, which will in many cases push implementations
 past the 14-extension limit for the use of one-byte extension headers
 defined in [RFC8285]. Accordingly, implementations will need to use
-two-byte headers, which are not supported well by many implementations.
+two-byte headers in many cases, which are not supported well by some
+existing implementations.
 
 Finally, the header extension bloat combined with the need for backwards
 compatibility results in additional wire overhead. Because two-byte
@@ -122,8 +129,8 @@ improvement in confidentiality.
 Terminology
 ===========
 
-The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", 
-"SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be 
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
+"SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be
 interpreted as described in {{RFC2119}}.
 
 Design
