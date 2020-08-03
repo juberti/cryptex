@@ -141,7 +141,15 @@ Signaling
 
 RTP Header Processing
 =====================
+[RFC8285] defines two values for the "defined by profile" field for carrying one byte and two bytes header extensions. In order to allow a receiver to differentiate if an incoming RTP packet is using the encryption scheme  in this specification or the old one, two new values are defined:
 
+ - 0XC0DE for the encrypted version of the one byte header extensions, instead of 0xBEDE
+ - 0XC2DE for the encrypted versions of the two bytes header extensions, instead of 0x100.
+ 
+In the case of using two byte header extension, extension id with value 256 MUST NOT be negotiated, as the value of this id is meant to be carried on the appbits (the 4 least significant bits of the two byte header) which are not availabe on the ecnrypted version.
+ 
+The processing of the header extensionss, both in sending and receiving, is done accoriding to the [RFC8285] including the negotiation and usage of the "extmap-allow-mixed" attribute.
+ 
 Encryption and Decryption
 =========================
 
