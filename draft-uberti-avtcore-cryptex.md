@@ -141,7 +141,7 @@ Signaling
 
 RTP Header Processing
 =====================
-[RFC8285] defines two values for the "defined by profile" field for carrying one byte and two bytes header extensions. In order to allow a receiver to differentiate if an incoming RTP packet is using the encryption scheme  in this specification or the old one, two new values are defined:
+[RFC8285] defines two values for the "defined by profile" field for carrying one byte and two bytes header extensions. In order to allow a receiver to differentiate if an incoming RTP packet is using the encryption scheme in this specification or the old one, two new values are defined:
 
  - 0xC0DE for the encrypted version of the one byte header extensions, instead of 0xBEDE
  - 0xC2DE for the encrypted versions of the two bytes header extensions, instead of 0x100.
@@ -163,4 +163,3 @@ Acknowledgements
 ================
 
 --- back
-
