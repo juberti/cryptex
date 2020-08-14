@@ -142,35 +142,57 @@ Signaling
 RTP Header Processing
 =====================
 
+The processing of header extensions, both in sending and receiving, is
+done as specified in [RFC8285] including the usage of the
+"extmap-allow-mixed" attribute.
+
+[RFC8285] defines two values for the "defined by profile" field for
+carrying one byte and two bytes header extensions. In order to allow a
+receiver to differentiate if an incoming RTP packet has header
+encryption or not, two new values are defined:
+
+ - 0xC0DE for the encrypted version of the one byte header extensions,
+ instead of 0xBEDE.
+
+ - 0xC2Dy for the encrypted versions of the two bytes header extensions,
+   instead of 0x100y. The y indicates the 4 bit value of the app bits.
+
+
 ## Sending
 
 When sending an RTP packet that requires any header extensions to a
 destination that has negotiated header encryption, the header extensions
-be encapsulated inside a {{RFC8285}} header extension.
+MUST be encapsulated inside a {{RFC8285}} header extension.
 
-The 16 bit RTP header extension tag MUST be changed from 0xBEDE to
-0xC0DE to indicate that it will be encrypted.
+If one byte codes are in use, the 16 bit RTP header extension tag MUST
+be 0xC0DE to indicate that it will be encrypted.  If the two byte header
+extension codes are in use, the 16 bit RTP header extension tag MUST be
+0xC2Cy to indicate that it will be encrypted where they represents the 4
+bits value of the app bits.
+
+The header must by encrypted as described in {{encrypt}}.
 
 ## Receiving
 
 After decrypting and authenticating the packet, if there is an RPT
-header extension with a 16 bit RTP header extension tag of 0xC0DE, it
-MUST be changed from 0xC0DE to 0xBEDE so that it can be processed as a
-normal {{RFC8285}} header extension.
+header extension with a 16 bit RTP header extension tag of 0xC0DE or
+with the top 24 bits set to 0xC2D, it MUST be decrypted as described in
+{{encrypt}} then processed as a normal {{RFC8285}} header extension.
 
-Encryption and Decryption
-=========================
+Encryption and Decryption {#encrypt}
+===========================
 
-Security Considerations
+Security Considerations {#security}
 =======================
 
-IANA Considerations
+IANA Considerations {#iana}
 ===================
-
-TODO: allocate RTP header extension code 0xC0DE to this spec
 
 Acknowledgements
 ================
+
+Thank you for review and text from Sergio Murillo, Jonathan Lennox, and
+Iñaki Castillo.
 
 --- back
 
