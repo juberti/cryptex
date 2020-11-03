@@ -262,6 +262,13 @@ required by {{RFC8285}}.
 Specifically, the encrypted portion MUST include any CSRC identifiers, any
 RTP header extension (except for the first 4 bytes), and the RTP payload.
 
+CSRCs identifiers can only be encrypted if the x bit is set to one, as the 
+"defined by profile" field must be present in the RTP packet to allow the 
+receiver check if the packet was encrypted with this specification or with 
+{{RFC3711}}. In case that the RTP packet does not contain any header extension,
+{{RFC2550}} allows to include a cero length header extension which will contain
+the "defined by profile" field.
+
 ## Encryption Procedure
 
 The encryption procedure is identical to that of {{RFC3711}} except for the
