@@ -22,6 +22,12 @@ author:
   org: Cisco
   email: fluffy@iii.ca
 
+-
+  ins: S. Garcia Murillo
+  name: Sergio Garcia Murillo
+  org: CoSMo
+  email: sergio.garcia.murillo@cosmosoftware.io
+
 normative:
   RFC2119:
   RFC3711:
@@ -321,7 +327,7 @@ This document defines two new 'defined by profile' attributes, as noted in RTP H
 Acknowledgements
 ================
 
-The authors wish to thank Sergio Murillo, Jonathan Lennox, and Iñaki Castillo for
-their review and text suggestions.
+The authors wish to thank Jonathan Lennox and Iñaki Castillo for
+their review and suggestions.
 
 --- back
