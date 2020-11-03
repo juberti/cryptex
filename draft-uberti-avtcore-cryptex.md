@@ -1,5 +1,5 @@
 ---
-docname: draft-uberti-avtcore-cryptex-00
+docname: draft-uberti-avtcore-cryptex-01
 title: Completely Encrypting RTP Header Extensions and Contributing Sources
 category: std
 ipr: trust200902
@@ -25,6 +25,7 @@ author:
 normative:
   RFC2119:
   RFC3711:
+  RFC4566:
   RFC8285:
 
 informative:
@@ -111,6 +112,7 @@ to the present situation.
 ## Goals
 
 From this analysis we can state the desired properties of a solution:
+
 - Build on existing [RFC3711] SRTP framework (simple to understand)
 - Build on existing [RFC8285] header extension framework (simple to implement)
 - Protection of header extension ids, lengths, and values
@@ -136,30 +138,190 @@ interpreted as described in {{RFC2119}}.
 Design
 ======
 
+This specification proposes a mechanism to negotiate encryption of all
+RTP header extensions (ids, lengths, and values) as well as CSRC values. It
+reuses the existing SRTP framework, is accordingly simple to implement, and
+is backward compatible with existing RTP packet parsing code, even when
+support for this mechanism has been negotiated.
+
 Signaling
 =========
 
+In order to determine whether this mechanism defined in this specification
+is supported, this document defines a new "a=extmap-encrypted"
+Session Description Protocol (SDP) {{RFC4566}} attribute to indicate support.
+This attribute takes no value, and
+can be used at the session level or media level. Offering this attribute
+indicates that the endpoint is capable of receiving RTP packets encrypted
+as defined below.
+
+   The formal definition of this attribute is:
+
+      Name: extmap-encrypted
+
+      Value: None
+
+      Usage Level: session, media
+
+      Charset Dependent: No
+
+      Example:
+
+         a=extmap-encrypted
+
+   When used with BUNDLE, this attribute is specified as the
+   TRANSPORT category. (todo: REF)
+
 RTP Header Processing
 =====================
-[RFC8285] defines two values for the "defined by profile" field for carrying one byte and two bytes header extensions. In order to allow a receiver to differentiate if an incoming RTP packet is using the encryption scheme in this specification or the old one, two new values are defined:
+{{RFC8285}} defines two values for the "defined by profile" field for carrying
+one-byte and two-byte header extensions. In order to allow a receiver to determine
+if an incoming RTP packet is using the encryption scheme in this specification,
+two new values are defined:
 
- - 0xC0DE for the encrypted version of the one byte header extensions, instead of 0xBEDE.
- - 0xC2DE for the encrypted versions of the two bytes header extensions, instead of 0x100.
- 
-In the case of using two byte header extension, extension id with value 256 MUST NOT be negotiated, as the value of this id is meant to be carried on the appbits (the 4 least significant bits of the two byte header) which are not availabe on the ecnrypted version.
- 
-The processing of the header extensionss, both in sending and receiving, is done accoriding to the [RFC8285] including the negotiation and usage of the "extmap-allow-mixed" attribute.
- 
+ - 0xC0DE for the encrypted version of the one-byte header extensions (instead of 0xBEDE).
+ - 0xC2DE for the encrypted versions of the two-byte header extensions (instead of 0x100).
+
+In the case of using two-byte header extensions, the extension id with value 256 MUST NOT
+be negotiated, as the value of this id is meant to be contained in the "appbits" of the
+"defined by profile" field, which are not available when using the values above.
+
+If the "a=extmap-allow-mixed" attribute defined in {{RFC8285}} is negotiated, either one-byte
+or two-byte header ids can be used (with the values above), as in {{RFC8285}}.
+
+## Sending
+
+When sending an RTP packet that requires any header extensions to a
+destination that has negotiated header encryption, the header extensions
+MUST be formatted as {{RFC8285}} header extensions, as usual.
+
+If one-byte extension ids are in use, the 16-bit RTP header extension tag MUST
+be set to 0xC0DE to indicate that the encryption defined in this specification
+has been applied. If two-byte header extension codes are in use, the 16-bit RTP
+header extension tag MUST be set to 0xC2DE to indicate the same.
+
+The RTP packet MUST then be encrypted as described in Encryption Procedure.
+
+## Receiving
+
+When receiving an RTP packet that contains header extensions, the
+"defined by profile" field MUST be checked to ensure the payload is
+formatted according to this specification. If the field does not match
+one of the values defined above, the implementation MUST instead
+handle it according to the specification that defines that value.
+The implemntation MAY stop and report an error if it considers use of
+this specification mandatory for the RTP stream.
+
+If the RTP packet passes this check, it is then decrypted according to
+Decryption Procedure, and passed to the the next layer to process
+the packet and its extensions.
+
 Encryption and Decryption
 =========================
+
+## Packet Structure
+
+When this mechanism is active, the SRTP packet is protected as follows:
+
+          0                   1                   2                   3
+        0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+<+
+       |V=2|P|X|  CC   |M|     PT      |       sequence number         | |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
+       |                           timestamp                           | |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
+       |           synchronization source (SSRC) identifier            | |
+     +>+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+ |
+     | |            contributing source (CSRC) identifiers             | |
+     | |                               ....                            | |
+     +>+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
+     X |       0xC0    |    0xDE       |           length=3            | |
+     +>+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
+     | |                  RFC 8285 header extensions                   | |
+     | +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
+     | |                          payload  ...                         | |
+     | |                               +-------------------------------+ |
+     | |                               | RTP padding   | RTP pad count | |
+     +>+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+<+
+     | ~                     SRTP MKI (OPTIONAL)                       ~ |
+     | +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
+     | :                 authentication tag (RECOMMENDED)              : |
+     | +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
+     |                                                                   |
+     +- Encrypted Portions*                     Authenticated Portion ---+
+
+* Note that the 4 bytes at the start of the extension block are not encrypted, as
+required by {{RFC8285}}.
+
+Specifically, the encrypted portion MUST include any CSRC identifiers, any
+RTP header extension (except for the first 4 bytes), and the RTP payload.
+
+## Encryption Procedure
+
+The encryption procedure is identical to that of {{RFC3711}} except for the
+region to encrypt, which is as shown in the section above.
+
+To minimize changes to surrounding code, the encryption mechanism can choose
+to replace a "defined by profile" field from {{RFC8285}} with its counterpart
+defined in RTP Header Processing above and encrypt at the same time.
+
+## Decryption Procedure
+
+The decryption procedure is identical to that of {{RFC3711}} except
+for the region to decrypt, which is as shown in the section above.
+
+To minimize changes to surrounding code, the decryption mechanism can choose
+to replace the "defined by profile" field with its no-encryption counterpart
+from {{RFC8285}} and decrypt at the same time.
+
+Backwards Compatibility
+=======================
+
+This specification attempts to encrypt as much as possible without interfering
+with backwards compatibility for systems that expect a certain structure from
+an RTPv2 packet, including systems that perform demultiplexing based on packet
+headers. Accordingly, the first two bytes of the RTP packet are not encrypted.
+
+This specification also attempts to reuse the key scheduling from SRTP, which
+depends on the RTP packet sequence number and SSRC identifier. Accordingly
+these values are also not encrypted.
 
 Security Considerations
 =======================
 
+This specification extends SRTP by expanding the portion of the packet that is
+encrypted, as shown in Packet Structure. It does not change how SRTP authentication
+works in any way. Given that more of the packet is being encrypted than before,
+this is necessarily an improvement.
+
+The RTP fields that are left unencrypted (see rationale above) are as follows:
+
+- RTP version
+- padding bit
+- extension bit
+- number of CSRCs
+- marker bit
+- payload type
+- sequence number
+- timestamp
+- SSRC identifier
+- number of {{RFC8285}} header extensions
+
+These values contain a fixed set (i.e., one that won't be changed by
+extensions) of information that, at present, is observed to have low
+sensitivity. In the event any of these values need to be encrypted, SRTP
+is likely the wrong protocol to use and a fully-encapsulating protocol
+such as DTLS is preferred (with its attendant per-packet overhead).
+
 IANA Considerations
 ===================
 
+This document defines two new 'defined by profile' attributes, as noted in RTP Header Processing.
+
 Acknowledgements
 ================
+
+The authors wish to thank Sergio Murillo, Jonathan Lennox, and Iñaki Castillo for
+their review and text suggestions.
 
 --- back
