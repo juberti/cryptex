@@ -195,23 +195,24 @@ be negotiated, as the value of this id is meant to be contained in the "appbits"
 If the "a=extmap-allow-mixed" attribute defined in {{RFC8285}} is negotiated, either one-byte
 or two-byte header ids can be used (with the values above), as in {{RFC8285}}.
 
-CSRCs identifiers can only be encrypted if the x bit is set to one, as the 
-"defined by profile" field must be present in the RTP packet to allow the 
-receiver check if the packet was encrypted with this specification or with 
-{{RFC3711}}. In case that the RTP packet does not contain any header extension,
-{{RFC2550}} allows to include a cero length header extension which will contain
-the "defined by profile" field.
-
 ## Sending
 
-When sending an RTP packet that requires any header extensions to a
-destination that has negotiated header encryption, the header extensions
-MUST be formatted as {{RFC8285}} header extensions, as usual.
+When the mechanism defined by this specification has been negotiated, 
+sending a RTP packet that has any CSRCs or contains any {RFC8285}} 
+header extensions follows the steps below. This mechanism MUST NOT be
+used with header extensions other than the {{RFC8285}} variety.
 
-If one-byte extension ids are in use, the 16-bit RTP header extension tag MUST
-be set to 0xC0DE to indicate that the encryption defined in this specification
-has been applied. If two-byte header extension codes are in use, the 16-bit RTP
-header extension tag MUST be set to 0xC2DE to indicate the same.
+If the packet contains solely one-byte extension ids, the 16-bit RTP header extension
+tag MUST be set to 0xC0DE to indicate that the encryption has been applied, and the
+one-byte framing is being used. If the packet contains only two-byte extension ids, 
+the header extension tag MUST be set to 0xC2DE to indicate encryption has been applied,
+and the two-byte framing is being used.
+
+If the packet contains CSRCs but no header extensions, an empty extension block
+consisting of the 0xC0DE tag and a 16-bit length field set to zero (explicitly
+permitted by {{RFC3550}}) MUST be appended, and the X bit MUST be set to 1 to 
+indicate an extension block is present. This is necessary to provide the receiver
+an indication that the CSRCs in the packet are encrypted.
 
 The RTP packet MUST then be encrypted as described in Encryption Procedure.
 
@@ -227,7 +228,9 @@ this specification mandatory for the RTP stream.
 
 If the RTP packet passes this check, it is then decrypted according to
 Decryption Procedure, and passed to the the next layer to process
-the packet and its extensions.
+the packet and its extensions. In the event that a zero-length extension
+block was added as indicated above, it can be left as-is and will be
+processed normally.
 
 Encryption and Decryption
 =========================
