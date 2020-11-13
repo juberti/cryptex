@@ -337,8 +337,8 @@ This document defines two new 'defined by profile' attributes, as noted in RTP H
 Acknowledgements
 ================
 
-The authors wish to thanks Lennart Grahl for raising the issue, proposing a first patch, and contributing to this new proposal.
-The authors wish to thank Jonathan Lennox and Iñaki Castillo for
-their review and suggestions.
+The authors wish to thank Lennart Grahl for pointing out many of the issues with the existing
+header encryption mechanism, as well as suggestions for this proposal.
+Thanks also to Jonathan Lennox and Iñaki Castillo for their review and suggestions.
 
 --- back
