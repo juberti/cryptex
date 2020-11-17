@@ -343,4 +343,383 @@ The authors wish to thank Lennart Grahl for pointing out many of the issues with
 header encryption mechanism, as well as suggestions for this proposal.
 Thanks also to Jonathan Lennox and Iñaki Castillo for their review and suggestions.
 
+
+
+Test Vectors
+================
+
+All values are in hexadecimal and represented by the network order (called big endian).
+ 
+## AES-CTR
+
+Common values are organized as follows:
+
+Rollover Counter:          00000000
+Authentication Key:        e1f97a0d3e018be0d64fa32c06de4139
+Session Salt:              0ec675ad498afeebb6960b3aabe6
+Crypto Suite:              AES_CM_128_HMAC_SHA1_80
+
+RTP Packet with 1-byte header extension:
+    
+        900f1235
+        decafbad
+        cafebabe
+        bede0001
+        51000200
+        abababab
+        abababab
+        abababab
+        abababab
+        
+Encrypted RTP Packet: 
+    
+        900f1235
+        decafbad
+        cafebabe
+        c0de0001
+        eb923652
+        51c3e036
+        f8de27e9
+        c27ee3e0
+        b4651d9f
+        bc4218a7
+        0244522f
+        34a5
+    
+RTP Packet with 2-byte header extension:
+    
+        900f1236
+        decafbad
+        cafebabe
+        10000001
+        05020002
+        abababab
+        abababab
+        abababab
+        abababab
+    
+Encrypted RTP Packet:
+
+        900f1236
+        decafbad
+        cafebabe
+        c2de0001
+        4ed9cc4e
+        6a712b30
+        96c5ca77
+        339d4204
+        ce0d7739
+        6cab6958
+        5fbce381
+        94a5
+        
+RTP Packet with 1-byte header extension and CSRC fields:
+    
+        920f1238
+        decafbad
+        cafebabe
+        0001e240
+        0000b26e
+        bede0001
+        51000200
+        abababab
+        abababab
+        abababab
+        abababab
+    
+Encrypted RTP Packet:
+
+        920f1238
+        decafbad
+        cafebabe
+        8bb6e12b
+        5cff16dd
+        c0de0001
+        92838c8c
+        09e58393
+        e1de3a9a
+        74734d67
+        45671338
+        c3acf11d
+        a2df8423
+        bee0
+    
+RTP Packet with 2-byte header extension and CSRC fields:
+    
+        920f1239
+        decafbad
+        cafebabe
+        0001e240
+        0000b26e
+        10000001
+        05020002
+        abababab
+        abababab
+        abababab
+        abababab
+    
+ Encrypted RTP Packet:
+ 
+        920f1239 
+        decafbad
+        cafebabe
+        f70e513e
+        b90b9b25
+        c2de0001
+        bbed4848
+        faa64466
+        5f3d7f34 
+        125914e9
+        f4d0ae92
+        3c6f479b
+        95a0f7b5
+        3133
+    
+RTP Packet with empty 1-byte header extension and CSRC fields:
+    
+        920f123a
+        decafbad
+        cafebabe
+        0001e240
+        0000b26e
+        bede0000
+        abababab
+        abababab
+        abababab
+        abababab
+
+Encrypted RTP Packet:
+    
+        920f123a
+        decafbad
+        cafebabe
+        7130b6ab
+        fe2ab0e3
+        c0de0000
+        e3d9f64b
+        25c9e74c
+        b4cf8e43
+        fb92e378
+        1c2c0cea
+        b6b3a499
+        a14c
+    
+RTP Packet with empty 2-byte header extension and CSRC fields:
+    
+        920f123b
+        decafbad
+        cafebabe
+        0001e240
+        0000b26e
+        10000000
+        abababab
+        abababab
+        abababab
+        abababab
+    
+Encrypted RTP Packet:
+
+        920f123b
+        decafbad
+        cafebabe
+        cbf24c12
+        4330e1c8
+        c2de0000
+        599dd45b
+        c9d687b6
+        03e8b59d
+        771fd38e
+        88b170e0
+        cd31e125
+        eabe
+        
+## AES-GCM
+
+Common values are organized as follows:
+
+Rollover Counter:          00000000
+Authentication Key:        000102030405060708090a0b0c0d0e0f
+Session Salt:              a0a1a2a3a4a5a6a7a8a9aaab
+Crypto Suite:              AEAD_AES_128_GCM
+
+RTP Packet with 1-byte header extension:
+    
+        900f1235
+        decafbad
+        cafebabe
+        bede0001
+        51000200
+        abababab
+        abababab
+        abababab
+        abababab
+
+Encrypted RTP Packet:   
+
+        900f1235
+        decafbad
+        cafebabe
+        c0de0001
+        39972dc9
+        572c4d99
+        e8fc355d
+        e743fb2e
+        94f9d8ff
+        54e72f41
+        93bbc5c7
+        4ffab0fa
+        9fa0fbeb
+    
+RTP Packet with 2-byte header extension:
+    
+        900f1236
+        decafbad
+        cafebabe
+        10000001
+        05020002
+        abababab
+        abababab
+        abababab
+        abababab
+ 
+Encrypted RTP Packet:
+ 
+        900f1236
+        decafbad
+        cafebabe
+        c2de0001
+        bb75a4c5
+        45cd1f41
+        3bdb7daa
+        2b1e3263
+        de313667
+        c9632490
+        81b35a65
+        f5cb6c88
+        b394235f
+
+RTP Packet with 1-byte header extension and CSRC fields:
+    
+        920f1238
+        decafbad
+        cafebabe
+        0001e240
+        0000b26e
+        bede0001
+        51000200
+        abababab
+        abababab
+        abababab
+        abababab
+  
+ Encrypted RTP Packet:
+ 
+        920f1238
+        decafbad
+        cafebabe
+        63bbccc4
+        a7f695c4
+        c0de0001
+        8ad7c71f
+        ac70a80c
+        92866b4c
+        6ba98546
+        ef913586
+        e95ffaaf
+        fe956885
+        bb0647a8
+        bc094ac8
+    
+RTP Packet with 2-byte header extension and CSRC fields. 
+    
+        920f1239
+        decafbad
+        cafebabe
+        0001e240
+        0000b26e
+        10000001
+        05020002
+        abababab
+        abababab
+        abababab
+        abababab
+    
+Encrypted RTP Packet:
+ 
+        920f1239
+        decafbad
+        cafebabe
+        3680524f
+        8d312b00
+        c2de0001
+        c78d1200
+        38422bc1
+        11a7187a
+        18246f98
+        0c059cc6
+        bc9df8b6
+        26394eca
+        344e4b05
+        d80fea83
+    
+RTP Packet with empty 1-byte header extension and CSRC fields:
+    
+        920f123a
+        decafbad
+        cafebabe
+        0001e240
+        0000b26e
+        bede0000
+        abababab
+        abababab
+        abababab
+        abababab
+    
+Encrypted RTP Packet:
+
+        920f123a
+        decafbad
+        cafebabe
+        15b6bb43
+        37906fff
+        c0de0000
+        b7b96453
+        7a2b03ab
+        7ba5389c
+        e9331712
+        6b5d974d
+        f30c6884
+        dcb651c5
+        e120c1da
+    
+RTP Packet with empty 2-byte header extension and CSRC fields:
+    
+        920f123b
+        decafbad
+        cafebabe
+        0001e240
+        0000b26e
+        10000000
+        abababab
+        abababab
+        abababab
+        abababab
+    
+ Encrypted RTP Packet:
+ 
+        920f123b
+        decafbad
+        cafebabe
+        dcb38c9e
+        48bf95f4
+        c2de0000
+        61ee432c
+        f9203170
+        76613258
+        d3ce4236
+        c06ac429
+        681ad084
+        13512dc9
+        8b5207d8
+        
 --- back
