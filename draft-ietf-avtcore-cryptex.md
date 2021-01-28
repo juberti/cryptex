@@ -198,20 +198,20 @@ or two-byte header ids can be used (with the values above), as in {{RFC8285}}.
 
 ## Sending
 
-When the mechanism defined by this specification has been negotiated, 
-sending a RTP packet that has any CSRCs or contains any {RFC8285}} 
+When the mechanism defined by this specification has been negotiated,
+sending a RTP packet that has any CSRCs or contains any {RFC8285}}
 header extensions follows the steps below. This mechanism MUST NOT be
 used with header extensions other than the {{RFC8285}} variety.
 
 If the packet contains solely one-byte extension ids, the 16-bit RTP header extension
 tag MUST be set to 0xC0DE to indicate that the encryption has been applied, and the
-one-byte framing is being used. If the packet contains only two-byte extension ids, 
+one-byte framing is being used. If the packet contains only two-byte extension ids,
 the header extension tag MUST be set to 0xC2DE to indicate encryption has been applied,
 and the two-byte framing is being used.
 
 If the packet contains CSRCs but no header extensions, an empty extension block
 consisting of the 0xC0DE tag and a 16-bit length field set to zero (explicitly
-permitted by {{RFC3550}}) MUST be appended, and the X bit MUST be set to 1 to 
+permitted by {{RFC3550}}) MUST be appended, and the X bit MUST be set to 1 to
 indicate an extension block is present. This is necessary to provide the receiver
 an indication that the CSRCs in the packet are encrypted.
 
