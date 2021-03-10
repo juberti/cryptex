@@ -1,5 +1,5 @@
 ---
-docname: draft-ietf-avtcore-cryptex-00
+docname: draft-ietf-avtcore-cryptex-01
 title: Completely Encrypting RTP Header Extensions and Contributing Sources
 category: std
 ipr: trust200902
@@ -34,6 +34,7 @@ normative:
   RFC3711:
   RFC4566:
   RFC8285:
+  RFC8859:
 
 informative:
   RFC6464:
@@ -60,16 +61,16 @@ Introduction
 
 ## Problem Statement
 
-The Secure Real-time Transport Protocol [RFC3711] mechanism provides message
+The Secure Real-time Transport Protocol {{RFC3711}} mechanism provides message
 authentication for the entire RTP packet, but only encrypts the RTP payload.
 This has not historically been a problem, as much of the information carried
 in the header has minimal sensitivity (e.g., RTP timestamp); in addition,
 certain fields need to remain as cleartext because they are used for key
 scheduling (e.g., RTP SSRC and sequence number).
 
-However, as noted in [RFC6904], the security requirements can be different for
+However, as noted in {{RFC6904}}, the security requirements can be different for
 information carried in RTP header extensions, including the per-packet sound
-levels defined in [RFC6464] and [RFC6465], which are specifically noted as
+levels defined in {{RFC6464}} and {{RFC6465}}, which are specifically noted as
 being sensitive in the Security Considerations section of those RFCs.
 
 In addition to the contents of the header extensions, there are now enough
@@ -84,7 +85,7 @@ an otherwise secure conference call.
 
 ## Previous Solutions
 
-[RFC6904] was proposed in 2013 as a solution to the problem of unprotected
+{{RFC6904}} was proposed in 2013 as a solution to the problem of unprotected
 header extension values. However, it has not seen significant adoption, and
 has a few technical shortcomings.
 
@@ -103,7 +104,7 @@ Third, it bloats the header extension space. Because each extension must
 be offered in both unencrypted and encrypted forms, twice as many header
 extensions must be offered, which will in many cases push implementations
 past the 14-extension limit for the use of one-byte extension headers
-defined in [RFC8285]. Accordingly, implementations will need to use
+defined in {{RFC8285}}. Accordingly, implementations will need to use
 two-byte headers in many cases, which are not supported well by some
 existing implementations.
 
@@ -112,7 +113,7 @@ compatibility results in additional wire overhead. Because two-byte
 extension headers may not be handled well by existing implementations,
 one-byte extension identifiers will need to be used for the unencrypted
 (backwards compatible) forms, and two-byte for the encrypted forms.
-Thus, deployment of [RFC6904] encryption for header extensions will
+Thus, deployment of {{RFC6904}} encryption for header extensions will
 typically result in multiple extra bytes in each RTP packet, compared
 to the present situation.
 
@@ -120,8 +121,8 @@ to the present situation.
 
 From this analysis we can state the desired properties of a solution:
 
-- Build on existing [RFC3711] SRTP framework (simple to understand)
-- Build on existing [RFC8285] header extension framework (simple to implement)
+- Build on existing {{RFC3711}} SRTP framework (simple to understand)
+- Build on existing {{RFC8285}} header extension framework (simple to implement)
 - Protection of header extension ids, lengths, and values
 - Protection of CSRCs when present
 - Simple signaling
@@ -155,7 +156,7 @@ Signaling
 =========
 
 In order to determine whether this mechanism defined in this specification
-is supported, this document defines a new "a=extmap-encrypted"
+is supported, this document defines a new "a=cryptex"
 Session Description Protocol (SDP) {{RFC4566}} attribute to indicate support.
 This attribute takes no value, and
 can be used at the session level or media level. Offering this attribute
@@ -164,7 +165,7 @@ as defined below.
 
    The formal definition of this attribute is:
 
-      Name: extmap-encrypted
+      Name: cryptex
 
       Value: None
 
@@ -174,10 +175,10 @@ as defined below.
 
       Example:
 
-         a=extmap-encrypted
+         a=cryptex
 
-   When used with BUNDLE, this attribute is specified as the
-   TRANSPORT category. (todo: REF)
+   When used with BUNDLE, this attribute is assigned to the
+   TRANSPORT category {{RFC8859}}.
 
 RTP Header Processing
 =====================
@@ -240,32 +241,32 @@ Encryption and Decryption
 
 When this mechanism is active, the SRTP packet is protected as follows:
 
-          0                   1                   2                   3
-        0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+<+
-       |V=2|P|X|  CC   |M|     PT      |       sequence number         | |
-       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
-       |                           timestamp                           | |
-       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
-       |           synchronization source (SSRC) identifier            | |
-     +>+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+ |
-     | |            contributing source (CSRC) identifiers             | |
-     | |                               ....                            | |
-     +>+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
-     X |       0xC0    |    0xDE       |           length=3            | |
-     +>+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
-     | |                  RFC 8285 header extensions                   | |
-     | +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
-     | |                          payload  ...                         | |
-     | |                               +-------------------------------+ |
-     | |                               | RTP padding   | RTP pad count | |
-     +>+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+<+
-     | ~                     SRTP MKI (OPTIONAL)                       ~ |
-     | +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
-     | :                 authentication tag (RECOMMENDED)              : |
-     | +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
-     |                                                                   |
-     +- Encrypted Portions*                     Authenticated Portion ---+
+         0                   1                   2                   3
+       0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+<+
+      |V=2|P|X|  CC   |M|     PT      |       sequence number         | |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
+      |                           timestamp                           | |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
+      |           synchronization source (SSRC) identifier            | |
+    +>+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+ |
+    | |            contributing source (CSRC) identifiers             | |
+    | |                               ....                            | |
+    +>+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
+    X |       0xC0    |    0xDE       |           length=3            | |
+    +>+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
+    | |                  RFC 8285 header extensions                   | |
+    | +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
+    | |                          payload  ...                         | |
+    | |                               +-------------------------------+ |
+    | |                               | RTP padding   | RTP pad count | |
+    +>+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+<+
+    | ~                     SRTP MKI (OPTIONAL)                       ~ |
+    | +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
+    | :                 authentication tag (RECOMMENDED)              : |
+    | +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
+    |                                                                   |
+    +- Encrypted Portions*                     Authenticated Portion ---+
 
 * Note that the 4 bytes at the start of the extension block are not encrypted, as
 required by {{RFC8285}}.
