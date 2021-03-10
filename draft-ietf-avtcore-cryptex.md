@@ -355,8 +355,8 @@ All values are in hexadecimal and represented by the network order (called big e
 Common values are organized as follows:
 
 Rollover Counter:          00000000
-Authentication Key:        e1f97a0d3e018be0d64fa32c06de4139
-Session Salt:              0ec675ad498afeebb6960b3aabe6
+Master Key:                e1f97a0d3e018be0d64fa32c06de4139
+Master Salt:               0ec675ad498afeebb6960b3aabe6
 Crypto Suite:              AES_CM_128_HMAC_SHA1_80
 
 RTP Packet with 1-byte header extension:
@@ -538,8 +538,8 @@ Encrypted RTP Packet:
 Common values are organized as follows:
 
 Rollover Counter:          00000000
-Authentication Key:        000102030405060708090a0b0c0d0e0f
-Session Salt:              a0a1a2a3a4a5a6a7a8a9aaab
+Master Key:                000102030405060708090a0b0c0d0e0f
+Master Salt:               a0a1a2a3a4a5a6a7a8a9aaab
 Crypto Suite:              AEAD_AES_128_GCM
 
 RTP Packet with 1-byte header extension:
