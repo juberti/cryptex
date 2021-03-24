@@ -358,6 +358,9 @@ Rollover Counter:          00000000
 Master Key:                e1f97a0d3e018be0d64fa32c06de4139
 Master Salt:               0ec675ad498afeebb6960b3aabe6
 Crypto Suite:              AES_CM_128_HMAC_SHA1_80
+Session Key:               c61e7a93744f39ee10734afe3ff7a087
+Session Salt:              30cbbc08863d8c85d49db34a9ae1
+Authentication Key:        cebe321f6ff7716b6fd4ab49af256a156d38baa4
 
 ### RTP Packet with 1-byte header extension
     
@@ -553,6 +556,8 @@ Rollover Counter:          00000000
 Master Key:                000102030405060708090a0b0c0d0e0f
 Master Salt:               a0a1a2a3a4a5a6a7a8a9aaab
 Crypto Suite:              AEAD_AES_128_GCM
+Session Key:               077c6143cb221bc355ff23d5f984a16e
+Session Salt:              9af3e95364ebac9c99c5a7c4
 
 ### RTP Packet with 1-byte header extension
 
