@@ -2,9 +2,9 @@
 
 This is the working area for the individual Internet-Draft, "Completely Encrypting RTP Header Extensions and Contributing Sources".
 
-* [Editor's Copy](https://juberti.github.io/cryptex/#go.draft-ietf-avtcore-cryptex.html)
+* [Editor's Copy](https://juberti.github.io/cryptex/draft-ietf-avtcore-cryptex.html)
 * [Individual Draft](https://tools.ietf.org/html/draft-ietf-avtcore-cryptex)
-* [Compare Editor's Copy to Individual Draft](https://juberti.github.io/cryptex/#go.draft-ietf-avtcore-cryptex.diff)
+* [Compare Editor's Copy to Individual Draft](https://juberti.github.io/cryptex/draft-ietf-avtcore-cryptex.diff)
 
 ## Building the Draft
 
