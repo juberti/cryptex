@@ -158,10 +158,13 @@ Signaling
 In order to determine whether the mechanism defined in this specification
 is supported, this document defines a new "a=cryptex"
 Session Description Protocol (SDP) {{RFC4566}} attribute to indicate support.
-This attribute takes no value, and
-can be used at the session level or media level. Offering this attribute
-indicates that the endpoint is capable of receiving RTP packets encrypted
-as defined below.
+
+This attribute takes no value, and can be used at the session level or media level. 
+
+The presence of this attribute in the SDP (either in an offer or answer) indicates that
+the endpoint is capable of receiving RTP packets encrypted with Cryptex, as defined below. 
+
+Once each peer has verified that the other party supports receiving RTP packets encrypted with Cryptex, senders can unilaterally decide whether to use the Cryptex mechanism or not.
 
    The formal definition of this attribute is:
 
@@ -179,6 +182,7 @@ as defined below.
 
    When used with BUNDLE, this attribute is assigned to the
    TRANSPORT category {{RFC8859}}.
+   If BUNDLE is in use and the a=cryptex attribute is present for a media line, it MUST be present for all media lines belonging to the same bundle group. This ensures that the encrypted MID header extensions used to demux BUNDLE can be processed correctly.
 
 RTP Header Processing
 =====================
