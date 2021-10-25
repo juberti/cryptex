@@ -159,10 +159,10 @@ In order to determine whether the mechanism defined in this specification
 is supported, this document defines a new "a=cryptex"
 Session Description Protocol (SDP) {{RFC4566}} attribute to indicate support.
 
-This attribute takes no value, and can be used at the session level or media level. 
+This attribute takes no value, and can be used at the session level or media level.
 
 The presence of this attribute in the SDP (either in an offer or answer) indicates that
-the endpoint is capable of receiving RTP packets encrypted with Cryptex, as defined below. 
+the endpoint is capable of receiving RTP packets encrypted with Cryptex, as defined below.
 
 Once each peer has verified that the other party supports receiving RTP packets encrypted with Cryptex, senders can unilaterally decide whether to use the Cryptex mechanism or not.
 
@@ -357,7 +357,7 @@ Test Vectors
 ================
 
 All values are in hexadecimal and represented in network order (big endian).
- 
+
 ## AES-CTR
 
 Common values are organized as follows:
@@ -371,7 +371,7 @@ Common values are organized as follows:
         Authentication Key:        cebe321f6ff7716b6fd4ab49af256a156d38baa4
 
 ### RTP Packet with 1-byte header extension
-    
+
 RTP Packet:
 
         900f1235
@@ -383,9 +383,9 @@ RTP Packet:
         abababab
         abababab
         abababab
-        
-Encrypted RTP Packet: 
-    
+
+Encrypted RTP Packet:
+
         900f1235
         decafbad
         cafebabe
@@ -398,9 +398,9 @@ Encrypted RTP Packet:
         bc4218a7
         0244522f
         34a5
-    
+
 ### RTP Packet with 2-byte header extension
-    
+
 RTP Packet:
 
         900f1236
@@ -412,7 +412,7 @@ RTP Packet:
         abababab
         abababab
         abababab
-    
+
 Encrypted RTP Packet:
 
         900f1236
@@ -427,7 +427,7 @@ Encrypted RTP Packet:
         6cab6958
         5fbce381
         94a5
-        
+
 ### RTP Packet with 1-byte header extension and CSRC fields
 
 RTP Packet:
@@ -443,7 +443,7 @@ RTP Packet:
         abababab
         abababab
         abababab
-    
+
 Encrypted RTP Packet:
 
         920f1238
@@ -460,7 +460,7 @@ Encrypted RTP Packet:
         c3acf11d
         a2df8423
         bee0
-    
+
 ### RTP Packet with 2-byte header extension and CSRC fields
 
 RTP Packet:
@@ -476,10 +476,10 @@ RTP Packet:
         abababab
         abababab
         abababab
-    
+
 Encrypted RTP Packet:
- 
-        920f1239 
+
+        920f1239
         decafbad
         cafebabe
         f70e513e
@@ -487,15 +487,15 @@ Encrypted RTP Packet:
         c2de0001
         bbed4848
         faa64466
-        5f3d7f34 
+        5f3d7f34
         125914e9
         f4d0ae92
         3c6f479b
         95a0f7b5
         3133
-    
+
 ### RTP Packet with empty 1-byte header extension and CSRC fields
-    
+
 RTP Packet:
 
         920f123a
@@ -510,7 +510,7 @@ RTP Packet:
         abababab
 
 Encrypted RTP Packet:
-    
+
         920f123a
         decafbad
         cafebabe
@@ -524,7 +524,7 @@ Encrypted RTP Packet:
         1c2c0cea
         b6b3a499
         a14c
-    
+
 ### RTP Packet with empty 2-byte header extension and CSRC fields
 
 RTP Packet:
@@ -539,7 +539,7 @@ RTP Packet:
         abababab
         abababab
         abababab
-    
+
 Encrypted RTP Packet:
 
         920f123b
@@ -555,7 +555,7 @@ Encrypted RTP Packet:
         88b170e0
         cd31e125
         eabe
-        
+
 ## AES-GCM
 
 Common values are organized as follows:
@@ -581,7 +581,7 @@ RTP Packet:
         abababab
         abababab
 
-Encrypted RTP Packet:   
+Encrypted RTP Packet:
 
         900f1235
         decafbad
@@ -596,7 +596,7 @@ Encrypted RTP Packet:
         93bbc5c7
         4ffab0fa
         9fa0fbeb
-    
+
 ### RTP Packet with 2-byte header extension
 
 RTP Packet:
@@ -610,9 +610,9 @@ RTP Packet:
         abababab
         abababab
         abababab
- 
+
 Encrypted RTP Packet:
- 
+
         900f1236
         decafbad
         cafebabe
@@ -642,9 +642,9 @@ RTP Packet:
         abababab
         abababab
         abababab
-  
+
 Encrypted RTP Packet:
- 
+
         920f1238
         decafbad
         cafebabe
@@ -660,7 +660,7 @@ Encrypted RTP Packet:
         fe956885
         bb0647a8
         bc094ac8
-    
+
 ### RTP Packet with 2-byte header extension and CSRC fields
 
 RTP Packet:
@@ -676,9 +676,9 @@ RTP Packet:
         abababab
         abababab
         abababab
-    
+
 Encrypted RTP Packet:
- 
+
         920f1239
         decafbad
         cafebabe
@@ -694,7 +694,7 @@ Encrypted RTP Packet:
         26394eca
         344e4b05
         d80fea83
-    
+
 ### RTP Packet with empty 1-byte header extension and CSRC fields
 
 RTP Packet:
@@ -709,7 +709,7 @@ RTP Packet:
         abababab
         abababab
         abababab
-    
+
 Encrypted RTP Packet:
 
         920f123a
@@ -726,7 +726,7 @@ Encrypted RTP Packet:
         f30c6884
         dcb651c5
         e120c1da
-    
+
 ### RTP Packet with empty 2-byte header extension and CSRC fields
 
 RTP Packet:
@@ -741,9 +741,9 @@ RTP Packet:
         abababab
         abababab
         abababab
-    
+
 Encrypted RTP Packet:
- 
+
         920f123b
         decafbad
         cafebabe
@@ -758,5 +758,5 @@ Encrypted RTP Packet:
         681ad084
         13512dc9
         8b5207d8
-        
+
 --- back
