@@ -77,7 +77,7 @@ In addition to the contents of the header extensions, there are now enough
 header extensions in active use that the header extension identifiers
 themselves can provide meaningful information in terms of determining the
 identity of endpoint and/or application. Accordingly, these identifiers
-can be considered at least slightly sensitive.
+can be considered a fingerprinting issue.
 
 Finally, the CSRCs included in RTP packets can also be sensitive, potentially
 allowing a network eavesdropper to determine who was speaking and when during
@@ -150,12 +150,12 @@ This specification proposes a mechanism to negotiate encryption of all
 RTP header extensions (ids, lengths, and values) as well as CSRC values. It
 reuses the existing SRTP framework, is accordingly simple to implement, and
 is backward compatible with existing RTP packet parsing code, even when
-support for this mechanism has been negotiated.
+support for the mechanism has been negotiated.
 
 Signaling
 =========
 
-In order to determine whether this mechanism defined in this specification
+In order to determine whether the mechanism defined in this specification
 is supported, this document defines a new "a=cryptex"
 Session Description Protocol (SDP) {{RFC4566}} attribute to indicate support.
 This attribute takes no value, and
@@ -225,7 +225,7 @@ When receiving an RTP packet that contains header extensions, the
 formatted according to this specification. If the field does not match
 one of the values defined above, the implementation MUST instead
 handle it according to the specification that defines that value.
-The implemntation MAY stop and report an error if it considers use of
+The implementation MAY stop and report an error if it considers use of
 this specification mandatory for the RTP stream.
 
 If the RTP packet passes this check, it is then decrypted according to
