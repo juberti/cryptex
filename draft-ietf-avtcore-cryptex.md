@@ -283,6 +283,10 @@ To minimize changes to surrounding code, the encryption mechanism can choose
 to replace a "defined by profile" field from {{RFC8285}} with its counterpart
 defined in RTP Header Processing above and encrypt at the same time.
 
+For AEAD ciphers (i.e. GCM), the 12-byte fixed header and the four-byte header
+extension header (the "defined by profile" field and the length) are AAD, even
+though they are non-contiguous in the packet if CSRCs are present.
+
 ## Decryption Procedure
 
 The decryption procedure is identical to that of {{RFC3711}} except
