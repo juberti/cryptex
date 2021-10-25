@@ -162,7 +162,7 @@ Session Description Protocol (SDP) {{RFC4566}} attribute to indicate support.
 This attribute takes no value, and can be used at the session level or media level. 
 
 The presence of this attribute in the SDP (either in an offer or answer) indicates that
-the endpoint is capable of receiving RTP packets encrypted with cryptex as defined below. 
+the endpoint is capable of receiving RTP packets encrypted with Cryptex, as defined below. 
 
 Once each peer has verified whether the other party supports receiving RTP packets encrypted with cryptex, it is up to local policies of the sending side to decide whether the cryptex mechanism is used or not.
 
