@@ -50,9 +50,9 @@ However, this data can be moderately sensitive in many applications. While
 there have been previous attempts to protect this data, they have had limited
 deployment, due to complexity as well as technical limitations.
 
-This document proposes a new mechanism to completely encrypt header
-extensions and CSRCs as well a simpler signaling mechanism intended to
-facilitate deployment.
+This document defines Cryptex as a new mechanism that completely encrypts
+header extensions and CSRCs and uses simpler signaling with the goal of
+facilitating deployment.
 
 --- middle
 
@@ -76,7 +76,7 @@ being sensitive in the Security Considerations section of those RFCs.
 In addition to the contents of the header extensions, there are now enough
 header extensions in active use that the header extension identifiers
 themselves can provide meaningful information in terms of determining the
-identity of endpoint and/or application. Accordingly, these identifiers
+identity of the endpoint and/or application. Accordingly, these identifiers
 can be considered a fingerprinting issue.
 
 Finally, the CSRCs included in RTP packets can also be sensitive, potentially
@@ -287,9 +287,9 @@ To minimize changes to surrounding code, the encryption mechanism can choose
 to replace a "defined by profile" field from {{RFC8285}} with its counterpart
 defined in RTP Header Processing above and encrypt at the same time.
 
-For AEAD ciphers (i.e. GCM), the 12-byte fixed header and the four-byte header
-extension header (the "defined by profile" field and the length) are AAD, even
-though they are non-contiguous in the packet if CSRCs are present.
+For AEAD ciphers (e.g., GCM), the 12-byte fixed header and the four-byte header
+extension header (the "defined by profile" field and the length) are considered
+AAD, even though they are non-contiguous in the packet if CSRCs are present.
 
 ## Decryption Procedure
 
@@ -349,7 +349,7 @@ Acknowledgements
 
 The authors wish to thank Lennart Grahl for pointing out many of the issues with the existing
 header encryption mechanism, as well as suggestions for this proposal.
-Thanks also to Jonathan Lennox and Iñaki Castillo for their review and suggestions.
+Thanks also to Jonathan Lennox, Iñaki Castillo, and Bernard Aboba for their review and suggestions.
 
 --- back
 
