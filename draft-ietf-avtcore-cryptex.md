@@ -182,7 +182,7 @@ Once each peer has verified that the other party supports receiving RTP packets 
 
    When used with BUNDLE, this attribute is assigned to the
    TRANSPORT category {{RFC8859}}.
-   If BUNDLE is in use and the cryptex attribute is present for an media line, then it MUST be present for all the media lines belonging to the same bundle group.
+   If BUNDLE is in use and the a=cryptex attribute is present for a media line, it MUST be present for all media lines belonging to the same bundle group. This ensures that the encrypted MID header extensions used to demux BUNDLE can be processed correctly.
 
 RTP Header Processing
 =====================
