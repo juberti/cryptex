@@ -340,18 +340,18 @@ Attribute name: cryptex
     
 Attribute syntax: This attribute takes no values.
     
-Attribute semantics: N/A.
+Attribute semantics: N/A
     
-Attribute value: N/A.
+Attribute value: N/A
     
 Usage level: media-level
     
-Charset dependent: No.
+Charset dependent: No
     
 Purpose: The presence of this attribute in the SDP indicates that the endpoint is capable of receiving RTP packets encrypted with Cryptex as described in this document.
 O/A procedures: SDP O/A procedures are described in Section 4 of this document.
     
-Mux Category: TRANSPORT.
+Mux Category: TRANSPORT
 
 
 Acknowledgements
