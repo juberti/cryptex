@@ -328,7 +328,7 @@ IANA Considerations
 
 This document defines two new 'defined by profile' attributes, as noted in RTP Header Processing.
 
-## New cryptex Media-Level SDP Attribute
+## cryptex SDP Attribute
 
 This document updates the "Session Description Protocol Parameters" registry as specified in Section 8.2.4 of {{RFC8866}}. Specifically, it adds the SDP 'crytpes' attribute to the table for SDP media-level attributes.
 
