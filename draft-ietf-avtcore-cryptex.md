@@ -344,7 +344,7 @@ Attribute semantics: N/A.
     
 Attribute value: N/A.
     
-Usage level: media.
+Usage level: media-level
     
 Charset dependent: No.
     
