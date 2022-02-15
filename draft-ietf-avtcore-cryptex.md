@@ -342,8 +342,6 @@ such as DTLS is preferred (with its attendant per-packet overhead).
 IANA Considerations
 ===================
 
-This document defines two new 'defined by profile' attributes, as noted in RTP Header Processing.
-
 Acknowledgements
 ================
 
