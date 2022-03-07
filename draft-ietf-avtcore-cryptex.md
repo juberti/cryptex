@@ -29,12 +29,12 @@ author:
   email: sergio.garcia.murillo@cosmosoftware.io
 
 normative:
-  RFC2119:
   RFC3550:
   RFC3711:
   RFC4566:
   RFC8285:
   RFC8859:
+  BCP14:
 
 informative:
   RFC6464:
@@ -139,9 +139,11 @@ improvement in confidentiality.
 Terminology
 ===========
 
-The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
-"SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be
-interpreted as described in {{RFC2119}}.
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
+NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED",
+"MAY", and "OPTIONAL" in this document are to be interpreted as
+described in {{BCP14}} {{RFC2119}} {{RFC8174}} when, and only when, they
+appear in all capitals, as shown here.
 
 Design
 ======
@@ -167,6 +169,9 @@ the endpoint is capable of receiving RTP packets encrypted with Cryptex, as defi
 Once each peer has verified that the other party supports receiving RTP packets encrypted with Cryptex, senders can unilaterally decide whether to use the Cryptex mechanism or not.
 
 If BUNDLE is in use and the a=cryptex attribute is present for a media line, it MUST be present for all media lines belonging to the same bundle group. This ensures that the encrypted MID header extensions used to demux BUNDLE can be processed correctly. When used with BUNDLE, this attribute is assigned to the TRANSPORT category {{RFC8859}}.
+
+
+It is possible to signal and negotiate both Encryption of Header Extensions as defined in {{RFC6904}} and cryptex in the SDP O/A, however if a packet is encrypted with cryptex, it MUST NOT use the {{RFC6904}} header extension encryption metchanisms.
 
 RTP Header Processing
 =====================
@@ -326,8 +331,6 @@ such as DTLS is preferred (with its attendant per-packet overhead).
 IANA Considerations
 ===================
 
-This document defines two new 'defined by profile' attributes, as noted in RTP Header Processing.
-
 ## cryptex SDP Attribute
 
 This document updates the "Session Description Protocol Parameters" registry as specified in Section 8.2.4 of {{RFC8866}}. Specifically, it adds the SDP 'cryptex' attribute to the table for SDP media-level attributes.
@@ -352,7 +355,6 @@ Purpose: The presence of this attribute in the SDP indicates that the endpoint i
 O/A procedures: SDP O/A procedures are described in Section 4 of this document.
     
 Mux Category: TRANSPORT
-
 
 Acknowledgements
 ================
