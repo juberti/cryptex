@@ -171,8 +171,7 @@ Once each peer has verified that the other party supports receiving RTP packets 
 
 If BUNDLE is in use and the a=cryptex attribute is present for a media line, it MUST be present for all media lines belonging to the same bundle group. This ensures that the encrypted MID header extensions used to demux BUNDLE can be processed correctly. When used with BUNDLE, this attribute is assigned to the TRANSPORT category {{RFC8859}}.
 
-
-It is possible to signal and negotiate both Encryption of Header Extensions as defined in {{RFC6904}} and cryptex in the SDP O/A, however if a packet is encrypted with cryptex, it MUST NOT use the {{RFC6904}} header extension encryption metchanisms.
+Peers MAY negotiate both Cryptex and the header extension mechanism defined in {{RFC6904}} via signaling, and if both mechanisms are supported, either one can be used for any given packet. However, if a packet is encrypted with Cryptex, it MUST NOT also use {{RFC6904}} header extension encryption, and vice versa.
 
 RTP Header Processing
 =====================
@@ -332,7 +331,7 @@ such as DTLS is preferred (with its attendant per-packet overhead).
 IANA Considerations
 ===================
 
-## cryptex SDP Attribute
+## SDP Attribute
 
 This document updates the "Session Description Protocol Parameters" registry as specified in Section 8.2.4 of {{RFC8866}}. Specifically, it adds the SDP 'cryptex' attribute to the table for SDP media-level attributes.
 
