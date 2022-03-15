@@ -335,9 +335,9 @@ IANA Considerations
 
 This document updates the "Session Description Protocol Parameters" registry as specified in Section 8.2.4 of {{RFC8866}}. Specifically, it adds the SDP 'cryptex' attribute to the table for SDP media-level attributes.
 
-Contact name: TBD
+Contact name: IETF AVT Working Group or IESG if AVT is closed
     
-Contact email address: TBD
+Contact email address: avt@ietf.org
     
 Attribute name: cryptex
     
