@@ -246,7 +246,7 @@ When this mechanism is active, the SRTP packet is protected as follows:
     | |            contributing source (CSRC) identifiers             | |
     | |                               ....                            | |
     +>+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
-    X |       0xC0    |    0xDE       |           length=3            | |
+    X |  0xC0 or 0xC2 |    0xDE       |           length=3            | |
     +>+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
     | |                  RFC 8285 header extensions                   | |
     | +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
@@ -270,7 +270,10 @@ RTP header extension (except for the first 4 bytes), and the RTP payload.
 ## Encryption Procedure
 
 The encryption procedure is identical to that of {{RFC3711}} except for the
-region to encrypt, which is as shown in the section above.
+region to encrypt, which is as shown in the section above:
+
+    Plaintext = CSRC identifiers (if used) || header extension || 
+         RTP payload || RTP padding (if used) || RTP pad count (if used).
 
 To minimize changes to surrounding code, the encryption mechanism can choose
 to replace a "defined by profile" field from {{RFC8285}} with its counterpart
@@ -279,6 +282,39 @@ defined in RTP Header Processing above and encrypt at the same time.
 For AEAD ciphers (e.g., GCM), the 12-byte fixed header and the four-byte header
 extension header (the "defined by profile" field and the length) are considered
 AAD, even though they are non-contiguous in the packet if CSRCs are present.
+
+      Associated Data: The version V || padding flag P || extension flag X ||
+         Contributing Source (CSRC) count CC || marker M ||
+         Payload Type PT (7 bits) || sequence number  || timestamp || SSRC || 
+         extension header ("defined by profile" || extension header length).
+                       
+        0                   1                   2                   3
+      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+<+
+     |V=2|P|X|  CC   |M|     PT      |       sequence number         | |
+     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
+     |                           timestamp                           | |
+     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
+     |           synchronization source (SSRC) identifier            | |
+     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
+     |  0xC0 or 0xC2 |    0xDE       |           length=3            | |
+   +>+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+ |
+   | |            contributing source (CSRC) identifiers             | |
+   | |                               ....                            | |
+   | +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
+   | |                  RFC 8285 header extensions                   | |
+   | +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
+   | |                          payload  ...                         | |
+   | |                               +-------------------------------+ |
+   | |                               | RTP padding   | RTP pad count | |
+   +>+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+<+
+   | ~                     SRTP MKI (OPTIONAL)                       ~ |
+   | +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
+   | :                 authentication tag (RECOMMENDED)              : |
+   | +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
+   |                                                                   |
+   +- Encrypted Portions*                     Authenticated Portion ---+
+
 
 ## Decryption Procedure
 
