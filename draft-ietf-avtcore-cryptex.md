@@ -296,7 +296,7 @@ Associated Data: fixed header || extension header (if X=1)
 ~~~
 
 Here "fixed header" refers to the 12-byte fixed portion of the RTP header, and
-"extension header" refers to the four-byte RFC 5285 extension header ("defined
+"extension header" refers to the four-byte RFC 8285 extension header ("defined
 by profile" and extension length).
 
 Implementations can rearrange a packet so that the AAD and plaintext are
