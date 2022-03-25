@@ -283,11 +283,22 @@ For AEAD ciphers (e.g., GCM), the 12-byte fixed header and the four-byte header
 extension header (the "defined by profile" field and the length) are considered
 AAD, even though they are non-contiguous in the packet if CSRCs are present.
 
-      Associated Data: The version V || padding flag P || extension flag X ||
-         Contributing Source (CSRC) count CC || marker M ||
-         Payload Type PT (7 bits) || sequence number  || timestamp || SSRC || 
-         extension header ("defined by profile" || extension header length).
-                       
+~~~
+Associated Data: fixed header || extension header (if X=1)
+~~~
+
+Here "fixed header" refers to the 12-byte fixed portion of the RTP header, and
+"extension header" refers to the four-byte RFC 5285 extension header ("defined
+by profile" and extension length).
+
+Implementations can rearrange a packet so that the AAD and plaintext are
+contiguous by swapping the order of the extension header and the CSRC
+identifiers, resulting in an intermediate representation of the form shown in
+{{intermediate-packet}}.  After encryption, the CSRCs (now encrypted) and
+extension header would need to be swapped back to their original positions. A
+similar operation can be done when decrypting to create contiguous ciphertext
+and AAD inputs.
+~~~
         0                   1                   2                   3
         0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
        +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+<+
@@ -298,7 +309,7 @@ AAD, even though they are non-contiguous in the packet if CSRCs are present.
        |           synchronization source (SSRC) identifier            | |
        +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
        |  0xC0 or 0xC2 |    0xDE       |           length=3            | |
-     +>+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+ |
+     +>+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+<+
      | |            contributing source (CSRC) identifiers             | |
      | |                               ....                            | |
      | +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
@@ -307,13 +318,11 @@ AAD, even though they are non-contiguous in the packet if CSRCs are present.
      | |                          payload  ...                         | |
      | |                               +-------------------------------+ |
      | |                               | RTP padding   | RTP pad count | |
-     +>+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+<+
-     | ~                     SRTP MKI (OPTIONAL)                       ~ |
-     | +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
-     | :                 authentication tag (RECOMMENDED)              : |
-     | +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
+     +>+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
      |                                                                   |
-     +- Encrypted Portions*                     Authenticated Portion ---+
+     +- Plaintext Input                                     AAD Input ---+
+~~~
+{: #intermediate-packet title="An RTP packet transformed to make Cryptex cipher inputs contiguous"}
 
 
 ## Decryption Procedure
