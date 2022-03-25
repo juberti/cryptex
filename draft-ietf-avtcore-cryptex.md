@@ -270,10 +270,18 @@ RTP header extension (except for the first 4 bytes), and the RTP payload.
 ## Encryption Procedure
 
 The encryption procedure is identical to that of {{RFC3711}} except for the
-region to encrypt, which is as shown in the section above:
+cipher inputs and the location of the encrypted data.  The plaintext input to
+the cipher is as follows:
 
-    Plaintext = CSRC identifiers (if used) || header extension || 
-         RTP payload || RTP padding (if used) || RTP pad count (if used).
+~~~
+Plaintext = CSRC identifiers (if used) || header extension data || 
+     RTP payload || RTP padding (if used) || RTP pad count (if used).
+~~~
+
+Here "header extension data" refers to the content of the RTP extension field,
+excluding the first four bytes (the RFC 5285 extension header).  The first
+`4*CC` bytes of the ciphertext are placed in the CSRC field of the RTP header.
+The remainder of the ciphertext is the RTP payload of the encrypted packet.
 
 To minimize changes to surrounding code, the encryption mechanism can choose
 to replace a "defined by profile" field from {{RFC8285}} with its counterpart
