@@ -279,7 +279,7 @@ Plaintext = CSRC identifiers (if used) || header extension data ||
 ~~~
 
 Here "header extension data" refers to the content of the RTP extension field,
-excluding the first four bytes (the RFC 5285 extension header).  The first
+excluding the first four bytes (the RFC 8285 extension header).  The first
 `4*CC` bytes of the ciphertext are placed in the CSRC field of the RTP header.
 The remainder of the ciphertext is the RTP payload of the encrypted packet.
 
