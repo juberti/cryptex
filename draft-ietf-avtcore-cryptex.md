@@ -246,7 +246,7 @@ When this mechanism is active, the SRTP packet is protected as follows:
     | |            contributing source (CSRC) identifiers             | |
     | |                               ....                            | |
     +>+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
-    X |  0xC0 or 0xC2 |    0xDE       |           length=3            | |
+    X |  0xC0 or 0xC2 |    0xDE       |           length              | |
     +>+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
     | |                  RFC 8285 header extensions                   | |
     | +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
@@ -316,7 +316,7 @@ and AAD inputs.
        +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
        |           synchronization source (SSRC) identifier            | |
        +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
-       |  0xC0 or 0xC2 |    0xDE       |           length=3            | |
+       |  0xC0 or 0xC2 |    0xDE       |           length              | |
      +>+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+<+
      | |            contributing source (CSRC) identifiers             | |
      | |                               ....                            | |
