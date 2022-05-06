@@ -218,7 +218,7 @@ When receiving an RTP packet that contains header extensions, the
 formatted according to this specification. If the field does not match
 one of the values defined above, the implementation MUST instead
 handle it according to the specification that defines that value.
-The implementation MAY stop and report an error if it considers use of
+The implementation SHOULD stop and report an error if it considers use of
 this specification mandatory for the RTP stream.
 
 If the RTP packet passes this check, it is then decrypted according to
