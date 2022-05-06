@@ -270,7 +270,7 @@ RTP header extension (except for the first 4 bytes), and the RTP payload.
 ## Encryption Procedure
 
 The encryption procedure is identical to that of {{RFC3711}} except for the
-region to encrypt, which is as shown in the section above.
+Encrypted Portion of the SRTP packet, which is as shown in the section above.
 
 To minimize changes to surrounding code, the encryption mechanism can choose
 to replace a "defined by profile" field from {{RFC8285}} with its counterpart
@@ -283,7 +283,7 @@ AAD, even though they are non-contiguous in the packet if CSRCs are present.
 ## Decryption Procedure
 
 The decryption procedure is identical to that of {{RFC3711}} except
-for the region to decrypt, which is as shown in the section above.
+for the Encrypted Portion of the SRTP packet, which is as shown in the section above.
 
 To minimize changes to surrounding code, the decryption mechanism can choose
 to replace the "defined by profile" field with its no-encryption counterpart
