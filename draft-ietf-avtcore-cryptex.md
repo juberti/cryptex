@@ -259,7 +259,7 @@ When this mechanism is active, the SRTP packet is protected as follows:
     | :                 authentication tag (RECOMMENDED)              : |
     | +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
     |                                                                   |
-    +- Encrypted Portions*                     Authenticated Portion ---+
+    +- Encrypted Portion*                      Authenticated Portion ---+
 
 * Note that the 4 bytes at the start of the extension block are not encrypted, as
 required by {{RFC8285}}.
@@ -270,8 +270,7 @@ RTP header extension (except for the first 4 bytes), and the RTP payload.
 ## Encryption Procedure
 
 The encryption procedure is identical to that of {{RFC3711}} except for the
-cipher inputs and the location of the encrypted data.  The plaintext input to
-the cipher is as follows:
+Encrypted Portion of the SRTP packet. The plaintext input to the cipher is as follows:
 
 ~~~
 Plaintext = CSRC identifiers (if used) || header extension data || 
@@ -336,7 +335,7 @@ and AAD inputs.
 ## Decryption Procedure
 
 The decryption procedure is identical to that of {{RFC3711}} except
-for the region to decrypt, which is as shown in the section above.
+for the Encrypted Portion of the SRTP packet, which is as shown in the section above.
 
 To minimize changes to surrounding code, the decryption mechanism can choose
 to replace the "defined by profile" field with its no-encryption counterpart
