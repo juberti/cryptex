@@ -229,7 +229,8 @@ Encryption and Decryption
 
 When this mechanism is active, the SRTP packet is protected as follows:
 
-         0                   1                   2                   3
+~~~
+       0                   1                   2                   3
        0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+<+
       |V=2|P|X|  CC   |M|     PT      |       sequence number         | |
@@ -255,6 +256,8 @@ When this mechanism is active, the SRTP packet is protected as follows:
     | +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
     |                                                                   |
     +- Encrypted Portion*                      Authenticated Portion ---+
+~~~
+{: #srtp-packet artwork-align="center" title="SRTP packet}
 
 * Note that the 4 bytes at the start of the extension block are not encrypted, as
 required by {{RFC8285}}.
@@ -300,31 +303,32 @@ identifiers, resulting in an intermediate representation of the form shown in
 extension header would need to be swapped back to their original positions. A
 similar operation can be done when decrypting to create contiguous ciphertext
 and AAD inputs.
+
 ~~~
-        0                   1                   2                   3
-        0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+<+
-       |V=2|P|X|  CC   |M|     PT      |       sequence number         | |
-       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
-       |                           timestamp                           | |
-       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
-       |           synchronization source (SSRC) identifier            | |
-       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
-       |  0xC0 or 0xC2 |    0xDE       |           length              | |
-     +>+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+<+
-     | |            contributing source (CSRC) identifiers             | |
-     | |                               ....                            | |
-     | +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
-     | |                  RFC 8285 header extensions                   | |
-     | +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
-     | |                          payload  ...                         | |
-     | |                               +-------------------------------+ |
-     | |                               | RTP padding   | RTP pad count | |
-     +>+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
-     |                                                                   |
-     +- Plaintext Input                                     AAD Input ---+
+       0                   1                   2                   3
+       0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+<+
+      |V=2|P|X|  CC   |M|     PT      |       sequence number         | |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
+      |                           timestamp                           | |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
+      |           synchronization source (SSRC) identifier            | |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
+      |  0xC0 or 0xC2 |    0xDE       |           length              | |
+    +>+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+<+
+    | |            contributing source (CSRC) identifiers             | |
+    | |                               ....                            | |
+    | +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
+    | |                  RFC 8285 header extensions                   | |
+    | +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
+    | |                          payload  ...                         | |
+    | |                               +-------------------------------+ |
+    | |                               | RTP padding   | RTP pad count | |
+    +>+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
+    |                                                                   |
+    +- Plaintext Input                                     AAD Input ---+
 ~~~
-{: #intermediate-packet title="An RTP packet transformed to make Cryptex cipher inputs contiguous"}
+{: #intermediate-packet artwork-align="center" title="An RTP packet transformed to make Cryptex cipher inputs contiguous"}
 
 
 ## Decryption Procedure
