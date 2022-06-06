@@ -218,8 +218,8 @@ When receiving an RTP packet that contains header extensions, the
 formatted according to this specification. If the field does not match
 one of the values defined above, the implementation MUST instead
 handle it according to the specification that defines that value.
-The implementation SHOULD stop and report an error if it considers use of
-this specification mandatory for the RTP stream.
+
+Alternatively, if the implementation considers the use of this specification mandatory and the "defined by profile" field does not match one of the values defined above, it SHOULD stop the processing of the RTP packet and report an error for the RTP stream.
 
 If the RTP packet passes this check, it is then decrypted according to
 Decryption Procedure, and passed to the the next layer to process
@@ -246,7 +246,7 @@ When this mechanism is active, the SRTP packet is protected as follows:
     | |            contributing source (CSRC) identifiers             | |
     | |                               ....                            | |
     +>+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
-    X |       0xC0    |    0xDE       |           length=3            | |
+    X |  0xC0 or 0xC2 |    0xDE       |           length              | |
     +>+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
     | |                  RFC 8285 header extensions                   | |
     | +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
@@ -259,7 +259,7 @@ When this mechanism is active, the SRTP packet is protected as follows:
     | :                 authentication tag (RECOMMENDED)              : |
     | +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
     |                                                                   |
-    +- Encrypted Portions*                     Authenticated Portion ---+
+    +- Encrypted Portion*                      Authenticated Portion ---+
 
 * Note that the 4 bytes at the start of the extension block are not encrypted, as
 required by {{RFC8285}}.
@@ -270,7 +270,17 @@ RTP header extension (except for the first 4 bytes), and the RTP payload.
 ## Encryption Procedure
 
 The encryption procedure is identical to that of {{RFC3711}} except for the
-Encrypted Portion of the SRTP packet, which is as shown in the section above.
+Encrypted Portion of the SRTP packet. The plaintext input to the cipher is as follows:
+
+~~~
+Plaintext = CSRC identifiers (if used) || header extension data || 
+     RTP payload || RTP padding (if used) || RTP pad count (if used).
+~~~
+
+Here "header extension data" refers to the content of the RTP extension field,
+excluding the first four bytes (the RFC 8285 extension header).  The first
+`4*CC` bytes of the ciphertext are placed in the CSRC field of the RTP header.
+The remainder of the ciphertext is the RTP payload of the encrypted packet.
 
 To minimize changes to surrounding code, the encryption mechanism can choose
 to replace a "defined by profile" field from {{RFC8285}} with its counterpart
@@ -279,6 +289,48 @@ defined in RTP Header Processing above and encrypt at the same time.
 For AEAD ciphers (e.g., GCM), the 12-byte fixed header and the four-byte header
 extension header (the "defined by profile" field and the length) are considered
 AAD, even though they are non-contiguous in the packet if CSRCs are present.
+
+~~~
+Associated Data: fixed header || extension header (if X=1)
+~~~
+
+Here "fixed header" refers to the 12-byte fixed portion of the RTP header, and
+"extension header" refers to the four-byte RFC 8285 extension header ("defined
+by profile" and extension length).
+
+Implementations can rearrange a packet so that the AAD and plaintext are
+contiguous by swapping the order of the extension header and the CSRC
+identifiers, resulting in an intermediate representation of the form shown in
+{{intermediate-packet}}.  After encryption, the CSRCs (now encrypted) and
+extension header would need to be swapped back to their original positions. A
+similar operation can be done when decrypting to create contiguous ciphertext
+and AAD inputs.
+~~~
+        0                   1                   2                   3
+        0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+<+
+       |V=2|P|X|  CC   |M|     PT      |       sequence number         | |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
+       |                           timestamp                           | |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
+       |           synchronization source (SSRC) identifier            | |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
+       |  0xC0 or 0xC2 |    0xDE       |           length              | |
+     +>+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+<+
+     | |            contributing source (CSRC) identifiers             | |
+     | |                               ....                            | |
+     | +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
+     | |                  RFC 8285 header extensions                   | |
+     | +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
+     | |                          payload  ...                         | |
+     | |                               +-------------------------------+ |
+     | |                               | RTP padding   | RTP pad count | |
+     +>+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ |
+     |                                                                   |
+     +- Plaintext Input                                     AAD Input ---+
+~~~
+{: #intermediate-packet title="An RTP packet transformed to make Cryptex cipher inputs contiguous"}
+
 
 ## Decryption Procedure
 
@@ -352,6 +404,7 @@ Usage level: media-level
 Charset dependent: No
     
 Purpose: The presence of this attribute in the SDP indicates that the endpoint is capable of receiving RTP packets encrypted with Cryptex as described in this document.
+
 O/A procedures: SDP O/A procedures are described in Section 4 of this document.
     
 Mux Category: TRANSPORT
