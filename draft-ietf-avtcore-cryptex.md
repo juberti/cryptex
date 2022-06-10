@@ -150,7 +150,7 @@ reuses the existing SRTP framework, is accordingly simple to implement, and
 is backward compatible with existing RTP packet parsing code, even when
 support for the mechanism has been negotiated.
 
-Signaling
+SDP Considerdations
 =========
 
 In order to determine whether the mechanism defined in this specification
@@ -382,7 +382,7 @@ such as DTLS is preferred (with its attendant per-packet overhead).
 IANA Considerations
 ===================
 
-## SDP Attribute
+## SDP cryptex Attribute
 
 This document updates the "Session Description Protocol Parameters" registry as specified in Section 8.2.4 of {{RFC8866}}. Specifically, it adds the SDP 'cryptex' attribute to the table for SDP media-level attributes.
 
