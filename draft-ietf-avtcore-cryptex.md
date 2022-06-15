@@ -217,7 +217,7 @@ handle it according to the specification that defines that value.
 Alternatively, if the implementation considers the use of this specification mandatory and the "defined by profile" field does not match one of the values defined above, it SHOULD stop the processing of the RTP packet and report an error for the RTP stream.
 
 If the RTP packet passes this check, it is then decrypted according to
-Decryption Procedure, and passed to the the next layer to process
+Decryption Procedure, and passed to the next layer to process
 the packet and its extensions. In the event that a zero-length extension
 block was added as indicated above, it can be left as-is and will be
 processed normally.
