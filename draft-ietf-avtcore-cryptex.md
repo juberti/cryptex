@@ -61,7 +61,7 @@ Introduction
 
 ## Problem Statement
 
-The Secure Real-time Transport Protocol {{RFC3711}} mechanism provides message
+The Secure Real-time Transport Protocol (SRTP) {{RFC3711}} mechanism provides message
 authentication for the entire RTP packet, but only encrypts the RTP payload.
 This has not historically been a problem, as much of the information carried
 in the header has minimal sensitivity (e.g., RTP timestamp); in addition,
@@ -164,7 +164,7 @@ the endpoint is capable of receiving RTP packets encrypted with Cryptex, as defi
 
 Once each peer has verified that the other party supports receiving RTP packets encrypted with Cryptex, senders can unilaterally decide whether to use the Cryptex mechanism or not.
 
-If BUNDLE is in use and the a=cryptex attribute is present for a media line, it MUST be present for all media lines belonging to the same bundle group. This ensures that the encrypted MID header extensions used to demux BUNDLE can be processed correctly. When used with BUNDLE, this attribute is assigned to the TRANSPORT category {{RFC8859}}.
+If BUNDLE is in use as per {{?RFC9143}} and the a=cryptex attribute is present for a media line, it MUST be present for all media lines belonging to the same bundle group. This ensures that the encrypted MID header extensions used to demux BUNDLE can be processed correctly. When used with BUNDLE, this attribute is assigned to the TRANSPORT category {{RFC8859}}.
 
 Peers MAY negotiate both Cryptex and the header extension mechanism defined in {{RFC6904}} via signaling, and if both mechanisms are supported, either one can be used for any given packet. However, if a packet is encrypted with Cryptex, it MUST NOT also use {{RFC6904}} header extension encryption, and vice versa.
 
