@@ -259,8 +259,7 @@ When this mechanism is active, the SRTP packet is protected as follows:
 ~~~
 {: #srtp-packet artwork-align="center" title="SRTP packet}
 
-* Note that the 4 bytes at the start of the extension block are not encrypted, as
-required by {{RFC8285}}.
+ * Note that, as required by {{RFC8285}}, the 4 bytes at the start of the extension block are not encrypted.
 
 Specifically, the encrypted portion MUST include any CSRC identifiers, any
 RTP header extension (except for the first 4 bytes), and the RTP payload.
