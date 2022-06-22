@@ -188,7 +188,7 @@ or two-byte header ids can be used (with the values above), as in {{RFC8285}}.
 ## Sending
 
 When the mechanism defined by this specification has been negotiated,
-sending a RTP packet that has any CSRCs or contains any {{RFC8285}}
+sending an RTP packet that has any CSRCs or contains any {{RFC8285}}
 header extensions follows the steps below. This mechanism MUST NOT be
 used with header extensions other than the {{RFC8285}} variety.
 
