@@ -31,10 +31,8 @@ author:
 normative:
   RFC3550:
   RFC3711:
-  RFC4566:
   RFC8285:
   RFC8859:
-  RFC8866:
 
 informative:
   RFC6464:
@@ -157,7 +155,7 @@ In order to determine whether the mechanism defined in this specification
 is supported, this document defines a new "a=cryptex"
 Session Description Protocol (SDP) attribute to indicate support.
 
-This attribute is a property attribute as defined in {{RFC4566}} section 5.13 and therefore takes no value, and can be used at the session level or media level.
+This attribute is a property attribute as defined in {{!RFC8866}} section 5.13 and therefore takes no value, and can be used at the session level or media level.
 
 The presence of this attribute in the SDP (either in an offer or answer) indicates that
 the endpoint is capable of receiving RTP packets encrypted with Cryptex, as defined below.
