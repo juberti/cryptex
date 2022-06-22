@@ -349,7 +349,7 @@ an RTPv2 packet, including systems that perform demultiplexing based on packet
 headers. Accordingly, the first two bytes of the RTP packet are not encrypted.
 
 This specification also attempts to reuse the key scheduling from SRTP, which
-depends on the RTP packet sequence number and SSRC identifier. Accordingly
+depends on the RTP packet sequence number and SSRC identifier. Accordingly,
 these values are also not encrypted.
 
 Security Considerations
