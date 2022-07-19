@@ -84,7 +84,7 @@ an otherwise secure conference call.
 
 ## Previous Solutions
 
-{{RFC6904}} was proposed in 2013 as a solution to the problem of unprotected
+Encryption of Header Extensions in SRTP {{RFC6904}} was proposed in 2013 as a solution to the problem of unprotected
 header extension values. However, it has not seen significant adoption, and
 has a few technical shortcomings.
 
