@@ -423,6 +423,8 @@ All values are in hexadecimal and represented in network order (big endian).
 
 ## AES-CTR
 
+The following section list the test vectors for using cryptex with AES-CTR as per {{RFC3711}}
+
 Common values are organized as follows:
 
         Rollover Counter:          00000000
@@ -620,6 +622,8 @@ Encrypted RTP Packet:
         eabe
 
 ## AES-GCM
+
+The following section list the test vectors for using cryptex with AES-GCM as per {{RFC7714}}
 
 Common values are organized as follows:
 
