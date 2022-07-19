@@ -118,7 +118,7 @@ to the present situation.
 
 ## Goals
 
-From this analysis we can state the desired properties of a solution:
+From the previous analysis, the desired properties of a solution are:
 
 - Build on existing {{RFC3711}} SRTP framework (simple to understand)
 - Build on existing {{RFC8285}} header extension framework (simple to implement)
@@ -129,10 +129,10 @@ From this analysis we can state the desired properties of a solution:
 - Backward compatible with unencrypted endpoints, if desired
 - Backward compatible with existing RTP tooling
 
-The last point deserves further discussion. While we considered possible
+The last point deserves further discussion. While considering possible
 solutions that would have encrypted more of the RTP header (e.g., the number
-of CSRCs), we felt the inability to parse the resultant packets with current
-tools, as well as additional complexity incurred, outweighed the slight
+of CSRCs), the inability to parse the resultant packets with current
+tools, as well as additional complexity incurred, outweighs the slight
 improvement in confidentiality.
 
 Terminology
@@ -149,7 +149,7 @@ reuses the existing SRTP framework, is accordingly simple to implement, and
 is backward compatible with existing RTP packet parsing code, even when
 support for the mechanism has been negotiated.
 
-SDP Considerdations
+SDP Considerations
 =========
 
 Cryptex support is indicated via a new "a=cryptex" Session Description Protocol (SDP) attribute defined in this specification.
