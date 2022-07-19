@@ -168,6 +168,8 @@ If BUNDLE is in use and the "a=cryptex" attribute is present for a media line, i
 
 Peers MAY negotiate both Cryptex and the header extension mechanism defined in {{RFC6904}} via signaling, and if both mechanisms are supported, either one can be used for any given packet. However, if a packet is encrypted with Cryptex, it MUST NOT also use {{RFC6904}} header extension encryption, and vice versa.
 
+Both enpoints can change the Cryptex support status by modifying the session as specified in  {{!RFC3264}} section 8. Generating subsequent SDP offers and answers MUST use the same procedures for including the "a=cryptex" attribute as the ones on the initial offer and answer.
+
 RTP Header Processing
 =====================
 {{RFC8285}} defines two values for the "defined by profile" field for carrying
