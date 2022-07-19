@@ -152,13 +152,11 @@ support for the mechanism has been negotiated.
 SDP Considerdations
 =========
 
-In order to determine whether the mechanism defined in this specification
-is supported, this document defines a new "a=cryptex"
-Session Description Protocol (SDP) attribute to indicate support.
+Cryptex support is indicated via a new "a=cryptex" Session Description Protocol (SDP) attribute defined in this specification.
 
-This attribute is a property attribute as defined in {{!RFC8866}} section 5.13 and therefore takes no value, and can be used at the session level or media level.
+The new "a=cryptex" attribute is a property attribute as defined in {{!RFC4566}} section 5.13 and therefore takes no value, and can be used at the session level or media level.
 
-The presence of this attribute in the SDP (either in an offer or answer) indicates that
+The presence of the "a=cryptex" attribute in the SDP (either in an offer or answer) indicates that
 the endpoint is capable of receiving RTP packets encrypted with Cryptex, as defined below.
 
 Once each peer has verified that the other party supports receiving RTP packets encrypted with Cryptex, senders can unilaterally decide whether to use the Cryptex mechanism or not.
