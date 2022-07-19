@@ -7,6 +7,7 @@ area: ART
 workgroup: AVTCORE
 keyword: SRTP
 stand_alone: yes
+updates: 3711
 
 pi: [toc, sortrefs, symrefs]
 
@@ -31,10 +32,8 @@ author:
 normative:
   RFC3550:
   RFC3711:
-  RFC4566:
   RFC8285:
   RFC8859:
-  RFC8866:
 
 informative:
   RFC6464:
@@ -61,7 +60,7 @@ Introduction
 
 ## Problem Statement
 
-The Secure Real-time Transport Protocol {{RFC3711}} mechanism provides message
+The Secure Real-time Transport Protocol (SRTP) {{RFC3711}} mechanism provides message
 authentication for the entire RTP packet, but only encrypts the RTP payload.
 This has not historically been a problem, as much of the information carried
 in the header has minimal sensitivity (e.g., RTP timestamp); in addition,
@@ -155,14 +154,14 @@ SDP Considerdations
 
 Cryptex support is indicated via a new "a=cryptex" Session Description Protocol (SDP) attribute defined in this specification.
 
-The new "a=cryptex" attribute is a property attribute as defined in {{RFC4566}} section 5.13 and therefore takes no value, and can be used at the session level or media level.
+The new "a=cryptex" attribute is a property attribute as defined in {{!RFC4566}} section 5.13 and therefore takes no value, and can be used at the session level or media level.
 
 The presence of the "a=cryptex" attribute in the SDP (either in an offer or answer) indicates that
 the endpoint is capable of receiving RTP packets encrypted with Cryptex, as defined below.
 
 Once each peer has verified that the other party supports receiving RTP packets encrypted with Cryptex, senders can unilaterally decide whether to use the Cryptex mechanism or not.
 
-If BUNDLE is in use and the "a=cryptex" attribute is present for a media line, it MUST be present for all media lines belonging to the same bundle group. This ensures that the encrypted MID header extensions used to demux BUNDLE can be processed correctly. When used with BUNDLE, this attribute is assigned to the TRANSPORT category {{RFC8859}}.
+If BUNDLE is in use as per {{?RFC9143}} and the "a=cryptex" attribute is present for a media line, it MUST be present for all media lines belonging to the same bundle group. This ensures that the encrypted MID header extensions used to demux BUNDLE can be processed correctly. When used with BUNDLE, this attribute is assigned to the TRANSPORT category {{RFC8859}}.
 
 Peers MAY negotiate both Cryptex and the header extension mechanism defined in {{RFC6904}} via signaling, and if both mechanisms are supported, either one can be used for any given packet. However, if a packet is encrypted with Cryptex, it MUST NOT also use {{RFC6904}} header extension encryption, and vice versa.
 
@@ -352,8 +351,11 @@ these values are also not encrypted.
 Security Considerations
 =======================
 
-This specification extends SRTP by expanding the portion of the packet that is
-encrypted, as shown in Packet Structure. It does not change how SRTP authentication
+
+All security considerations in {{!RFC3711}} section 9 are applicable to this specification.
+
+This specification extends SRTP by expanding the Encrypted Portion of the RTP packet,
+as shown in Packet Structure. It does not change how SRTP authentication
 works in any way. Given that more of the packet is being encrypted than before,
 this is necessarily an improvement.
 
@@ -420,6 +422,8 @@ Test Vectors
 All values are in hexadecimal and represented in network order (big endian).
 
 ## AES-CTR
+
+The following section list the test vectors for using cryptex with AES-CTR as per {{RFC3711}}
 
 Common values are organized as follows:
 
@@ -618,6 +622,8 @@ Encrypted RTP Packet:
         eabe
 
 ## AES-GCM
+
+The following section list the test vectors for using cryptex with AES-GCM as per {{RFC7714}}
 
 Common values are organized as follows:
 
