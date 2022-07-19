@@ -159,7 +159,7 @@ The new "a=cryptex" attribute is a property attribute as defined in {{!RFC4566}}
 The presence of the "a=cryptex" attribute in the SDP (either in an offer or answer) indicates that
 the endpoint is capable of receiving RTP packets encrypted with Cryptex, as defined below.
 
-Once each peer has verified that the other party supports receiving RTP packets encrypted with Cryptex, senders can unilaterally decide whether to use the Cryptex mechanism or not.
+Once each peer has verified that the other party supports receiving RTP packets encrypted with Cryptex, senders can unilaterally decide whether to use or not the Cryptex mechanism on a per packet basis.
 
 If BUNDLE is in use as per {{?RFC9143}} and the "a=cryptex" attribute is present for a media line, it MUST be present for all media lines belonging to the same bundle group. This ensures that the encrypted MID header extensions used to demux BUNDLE can be processed correctly. When used with BUNDLE, this attribute is assigned to the TRANSPORT category {{RFC8859}}.
 
