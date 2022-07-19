@@ -397,7 +397,7 @@ Attribute semantics: N/A
     
 Attribute value: N/A
     
-Usage level: media-level
+Usage level: session, media
     
 Charset dependent: No
     
