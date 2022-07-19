@@ -354,8 +354,11 @@ these values are also not encrypted.
 Security Considerations
 =======================
 
-This specification extends SRTP by expanding the portion of the packet that is
-encrypted, as shown in Packet Structure. It does not change how SRTP authentication
+
+All security considerations in {{!RFC3711}} section 9 are applicable to this specification.
+
+This specification extends SRTP by expanding the Encrypted Portion of the RTP packet,
+as shown in Packet Structure. It does not change how SRTP authentication
 works in any way. Given that more of the packet is being encrypted than before,
 this is necessarily an improvement.
 
