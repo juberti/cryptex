@@ -58,7 +58,7 @@ facilitating deployment.
 Introduction
 ============
 
-## Problem Statement
+## Problem Statement {#problem-statement}
 
 The Secure Real-time Transport Protocol (SRTP) {{RFC3711}} mechanism provides message
 authentication for the entire RTP packet, but only encrypts the RTP payload.
@@ -129,11 +129,7 @@ From the previous analysis, the desired properties of a solution are:
 - Backward compatible with unencrypted endpoints, if desired
 - Backward compatible with existing RTP tooling
 
-The last point deserves further discussion. While considering possible
-solutions that would have encrypted more of the RTP header (e.g., the number
-of CSRCs), the inability to parse the resultant packets with current
-tools, as well as additional complexity incurred, outweighs the slight
-improvement in confidentiality.
+The last point deserves further discussion. While considering possible solutions that would have encrypted more of the RTP header (e.g., the number of CSRCs), lack of support on current tools was inevitable and the additional complexity outweighed the slight improvement in confidentiality by fixing previous solutions. Hence, new approach was needed to solve the described problem in {{problem-statement}}.
 
 Terminology
 ===========
