@@ -148,7 +148,7 @@ support for the mechanism has been negotiated.
 SDP Considerations
 =========
 
-Cryptex support is indicated via a new "a=cryptex" Session Description Protocol (SDP) attribute defined in this specification.
+Cryptex support is indicated via a new "a=cryptex" SDP**** attribute defined in this specification.
 
 The new "a=cryptex" attribute is a property attribute as defined in {{!RFC4566}} section 5.13 and therefore takes no value, and can be used at the session level or media level.
 
