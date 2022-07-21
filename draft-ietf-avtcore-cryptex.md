@@ -165,7 +165,7 @@ Both enpoints can change the Cryptex support status by modifying the session as 
 
 RTP Header Processing
 =====================
-{{RFC8285}} defines two values for the "defined by profile" field for carrying
+A General Mechanism for RTP Header Extensions {{RFC8285}} defines two values for the "defined by profile" field for carrying
 one-byte and two-byte header extensions. In order to allow a receiver to determine
 if an incoming RTP packet is using the encryption scheme in this specification,
 two new values are defined:
