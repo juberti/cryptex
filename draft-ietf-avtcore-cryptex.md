@@ -181,8 +181,7 @@ In the case of using two-byte header extensions, the extension id with value 256
 be negotiated, as the value of this id is meant to be contained in the "appbits" of the
 "defined by profile" field, which are not available when using the values above.
 
-If the "a=extmap-allow-mixed" attribute defined in {{RFC8285}} is negotiated, either one-byte
-or two-byte header ids can be used (with the values above), as in {{RFC8285}}.
+Note that as per {{!RFC8285}} it is not possible to mix one-byte and two-byte headers on the same RTP packet. Mixing one-byte and two-byte headers on the same RTP stream requires negotiation of the "extmap-allow-mixed" SDP attribute as defined in {{!RFC8285}} section 4.1.2.
 
 ## Sending
 
@@ -191,9 +190,9 @@ sending an RTP packet that has any CSRCs or contains any {{RFC8285}}
 header extensions follows the steps below. This mechanism MUST NOT be
 used with header extensions other than the {{RFC8285}} variety.
 
-If the packet contains solely one-byte extension ids, the 16-bit RTP header extension
+If the RTP packet contains one-byte headers, the 16-bit RTP header extension
 tag MUST be set to 0xC0DE to indicate that the encryption has been applied, and the
-one-byte framing is being used. If the packet contains only two-byte extension ids,
+one-byte framing is being used. Otherwise,
 the header extension tag MUST be set to 0xC2DE to indicate encryption has been applied,
 and the two-byte framing is being used.
 
