@@ -323,6 +323,7 @@ and AAD inputs.
 ~~~
 {: #intermediate-packet artwork-align="center" title="An RTP packet transformed to make Cryptex cipher inputs contiguous"}
 
+Note: This intermediate representation is only displayed as reference for implementations and is not meant to be send on the wire.
 
 ## Decryption Procedure
 
