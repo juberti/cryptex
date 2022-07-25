@@ -150,7 +150,7 @@ Except when explicity stated otherwise, Cryptex reuses all the framework procedu
 SDP Considerations
 =========
 
-Cryptex support is indicated via a new "a=cryptex" SDP**** attribute defined in this specification.
+Cryptex support is indicated via a new "a=cryptex" SDP attribute defined in this specification.
 
 The new "a=cryptex" attribute is a property attribute as defined in {{!RFC8866}} section 5.13 and therefore takes no value, and can be used at the session level or media level.
 
