@@ -1,5 +1,5 @@
 ---
-docname: draft-ietf-avtcore-cryptex-latest
+docname: draft-ietf-avtcore-cryptex-07
 title: Completely Encrypting RTP Header Extensions and Contributing Sources
 category: std
 ipr: trust200902
@@ -26,7 +26,7 @@ author:
 -
   ins: S. Garcia Murillo
   name: Sergio Garcia Murillo
-  org: CoSMo
+  org: Millicast
   email: sergio.garcia.murillo@cosmosoftware.io
 
 normative:
@@ -145,21 +145,21 @@ reuses the existing SRTP framework, is accordingly simple to implement, and
 is backward compatible with existing RTP packet parsing code, even when
 support for the mechanism has been negotiated.
 
-Except when explicity stated otherwise, Cryptex reuses all the framework procedures, transforms and considerations described in {{!RFCRFC3711}.
+Except when explicity stated otherwise, Cryptex reuses all the framework procedures, transforms and considerations described in {{!RFC3711}}.
 
 SDP Considerations
 =========
 
 Cryptex support is indicated via a new "a=cryptex" SDP**** attribute defined in this specification.
 
-The new "a=cryptex" attribute is a property attribute as defined in {{!RFC4566}} section 5.13 and therefore takes no value, and can be used at the session level or media level.
+The new "a=cryptex" attribute is a property attribute as defined in {{!RFC8866}} section 5.13 and therefore takes no value, and can be used at the session level or media level.
 
 The presence of the "a=cryptex" attribute in the SDP (either in an offer or answer) indicates that
 the endpoint is capable of receiving RTP packets encrypted with Cryptex, as defined below.
 
 Once each peer has verified that the other party supports receiving RTP packets encrypted with Cryptex, senders can unilaterally decide whether to use or not the Cryptex mechanism on a per packet basis.
 
-If BUNDLE is in use as per {{?RFC9143}} and the "a=cryptex" attribute is present for a media line, it MUST be present for all RTP-based "m=" sections belonging to the same bundle group. This ensures that the encrypted MID header extensions can be processed, allowing to associate RTP streams with the correct "m=" section in each BUNDLE group as specified in {{RFC!8843}} section 9.2. When used with BUNDLE, this attribute is assigned to the TRANSPORT category {{RFC8859}}.
+If BUNDLE is in use as per {{?RFC9143}} and the "a=cryptex" attribute is present for a media line, it MUST be present for all RTP-based "m=" sections belonging to the same bundle group. This ensures that the encrypted MID header extensions can be processed, allowing to associate RTP streams with the correct "m=" section in each BUNDLE group as specified in {{!RFC9143}} section 9.2. When used with BUNDLE, this attribute is assigned to the TRANSPORT category {{RFC8859}}.
 
 Peers MAY negotiate both Cryptex and the header extension mechanism defined in {{RFC6904}} via signaling, and if both mechanisms are supported, either one can be used for any given packet. However, if a packet is encrypted with Cryptex, it MUST NOT also use {{RFC6904}} header extension encryption, and vice versa.
 
@@ -383,7 +383,7 @@ IANA Considerations
 
 ## SDP cryptex Attribute
 
-This document updates the "Session Description Protocol Parameters" as specified in Section 8.2.4 of {{RFC8866}}. Specifically, it adds the SDP "a=cryptex" attribute to the Attribute Names (<attribute-name>) registry for both media and session level usage.
+This document updates the "Session Description Protocol Parameters" as specified in Section 8.2.4 of {{!RFC8866}}. Specifically, it adds the SDP "a=cryptex" attribute to the Attribute Names (\<attribute-name\>) registry for both media and session level usage.
 
 Contact name: IETF AVT Working Group or IESG if AVT is closed
     
@@ -623,7 +623,7 @@ Encrypted RTP Packet:
 
 ## AES-GCM
 
-The following section list the test vectors for using cryptex with AES-GCM as per {{RFC7714}}
+The following section list the test vectors for using cryptex with AES-GCM as per {{?RFC7714}}
 
 Common values are organized as follows:
 
