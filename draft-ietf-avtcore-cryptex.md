@@ -145,7 +145,7 @@ reuses the existing SRTP framework, is accordingly simple to implement, and
 is backward compatible with existing RTP packet parsing code, even when
 support for the mechanism has been negotiated.
 
-Except when explicity stated otherwise, Cryptex reuses all the framework procedures, transforms and considerations described in {{!RFCRFC3711}.
+Except when explicity stated otherwise, Cryptex reuses all the framework procedures, transforms and considerations described in {{!RFC3711}}.
 
 SDP Considerations
 =========
