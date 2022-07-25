@@ -152,14 +152,14 @@ SDP Considerations
 
 Cryptex support is indicated via a new "a=cryptex" SDP**** attribute defined in this specification.
 
-The new "a=cryptex" attribute is a property attribute as defined in {{!RFC4566}} section 5.13 and therefore takes no value, and can be used at the session level or media level.
+The new "a=cryptex" attribute is a property attribute as defined in {{!RFC8866}} section 5.13 and therefore takes no value, and can be used at the session level or media level.
 
 The presence of the "a=cryptex" attribute in the SDP (either in an offer or answer) indicates that
 the endpoint is capable of receiving RTP packets encrypted with Cryptex, as defined below.
 
 Once each peer has verified that the other party supports receiving RTP packets encrypted with Cryptex, senders can unilaterally decide whether to use or not the Cryptex mechanism on a per packet basis.
 
-If BUNDLE is in use as per {{?RFC9143}} and the "a=cryptex" attribute is present for a media line, it MUST be present for all RTP-based "m=" sections belonging to the same bundle group. This ensures that the encrypted MID header extensions can be processed, allowing to associate RTP streams with the correct "m=" section in each BUNDLE group as specified in {{!RFC8843}} section 9.2. When used with BUNDLE, this attribute is assigned to the TRANSPORT category {{RFC8859}}.
+If BUNDLE is in use as per {{?RFC9143}} and the "a=cryptex" attribute is present for a media line, it MUST be present for all RTP-based "m=" sections belonging to the same bundle group. This ensures that the encrypted MID header extensions can be processed, allowing to associate RTP streams with the correct "m=" section in each BUNDLE group as specified in {{!RFC9143}} section 9.2. When used with BUNDLE, this attribute is assigned to the TRANSPORT category {{RFC8859}}.
 
 Peers MAY negotiate both Cryptex and the header extension mechanism defined in {{RFC6904}} via signaling, and if both mechanisms are supported, either one can be used for any given packet. However, if a packet is encrypted with Cryptex, it MUST NOT also use {{RFC6904}} header extension encryption, and vice versa.
 
