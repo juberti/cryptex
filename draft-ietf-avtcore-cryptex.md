@@ -26,7 +26,7 @@ author:
 -
   ins: S. Garcia Murillo
   name: Sergio Garcia Murillo
-  org: CoSMo
+  org: Millicast
   email: sergio.garcia.murillo@cosmosoftware.io
 
 normative:
