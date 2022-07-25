@@ -383,7 +383,7 @@ IANA Considerations
 
 ## SDP cryptex Attribute
 
-This document updates the "Session Description Protocol Parameters" as specified in Section 8.2.4 of {{!RFC8866}}. Specifically, it adds the SDP "a=cryptex" attribute to the Attribute Names (<attribute-name>) registry for both media and session level usage.
+This document updates the "Session Description Protocol Parameters" as specified in Section 8.2.4 of {{!RFC8866}}. Specifically, it adds the SDP "a=cryptex" attribute to the Attribute Names (\<attribute-name\>) registry for both media and session level usage.
 
 Contact name: IETF AVT Working Group or IESG if AVT is closed
     
