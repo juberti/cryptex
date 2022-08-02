@@ -181,7 +181,7 @@ Note that as per {{!RFC8285}} it is not possible to mix one-byte and two-byte he
 
 Peers MAY negotiate both Cryptex and the Encryption of Header Extensions mechanism defined in {{RFC6904}} via SPD offer/answer as described in {{sdp-considerations}}, and if both mechanisms are supported, either one can be used for any given packet. However, if a packet is encrypted with Cryptex, it MUST NOT also use {{RFC6904}} header extension encryption, and vice versa.
 
-If both Cryptex and the Encryption of Header Extensions mechanism defined in {{RFC6904}} are supported by both the sender and receiver, it is RECOMENDED to use Cryptex over {{RFC6904}} so all the header extensions and CSRCS are encrypted, except when some of the header extensions should be sent in clear so they are processable by RTP middleboxes, in which case, it SHOULD use {{RFC6904}} instead.
+If both Cryptex and the Encryption of Header Extensions mechanism defined in {{RFC6904}} are supported by both the sender and receiver, it is RECOMMENDED to use Cryptex over {{RFC6904}} so all the header extensions and CSRCS are encrypted, except when some of the header extensions should be sent in clear so they are processable by RTP middleboxes, in which case, it SHOULD use {{RFC6904}} instead.
 
 ## Sending
 
