@@ -49,7 +49,7 @@ However, this data can be moderately sensitive in many applications. While
 there have been previous attempts to protect this data, they have had limited
 deployment, due to complexity as well as technical limitations.
 
-This document defines Cryptex as a new mechanism that completely encrypts
+This document updates RFC 3711, the SRTP specification, and defines Cryptex as a new mechanism that completely encrypts
 header extensions and CSRCs and uses simpler Session Description Protocol (SDP) signaling with the goal of
 facilitating deployment.
 
