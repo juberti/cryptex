@@ -352,7 +352,9 @@ Security Considerations
 =======================
 
 
-All security considerations in {{!RFC3711}} section 9 are applicable to this specification.
+All security considerations in {{!RFC3711}} section 9 are applicable to this specification, except section 9.4. Confidentiality of the RTP Header which is the pourpose of this specification.
+
+The risks of using weak or NULL authentication with SRTP, described in Section 9.5 of {{!RFC3711}}, apply to encrypted header extensions as well.
 
 This specification extends SRTP by expanding the Encrypted Portion of the RTP packet,
 as shown in Packet Structure. It does not change how SRTP authentication
