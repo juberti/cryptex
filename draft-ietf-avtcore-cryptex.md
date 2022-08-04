@@ -147,7 +147,7 @@ support for the mechanism has been negotiated.
 
 Except when explicity stated otherwise, Cryptex reuses all the framework procedures, transforms and considerations described in {{!RFC3711}}.
 
-SDP Considerations
+SDP Considerations {#sdp-considerations}
 =========
 
 Cryptex support is indicated via a new "a=cryptex" SDP attribute defined in this specification.
@@ -160,8 +160,6 @@ the endpoint is capable of receiving RTP packets encrypted with Cryptex, as defi
 Once each peer has verified that the other party supports receiving RTP packets encrypted with Cryptex, senders can unilaterally decide whether to use or not the Cryptex mechanism on a per packet basis.
 
 If BUNDLE is in use as per {{?RFC9143}} and the "a=cryptex" attribute is present for a media line, it MUST be present for all RTP-based "m=" sections belonging to the same bundle group. This ensures that the encrypted MID header extensions can be processed, allowing to associate RTP streams with the correct "m=" section in each BUNDLE group as specified in {{!RFC9143}} section 9.2. When used with BUNDLE, this attribute is assigned to the TRANSPORT category {{RFC8859}}.
-
-Peers MAY negotiate both Cryptex and the header extension mechanism defined in {{RFC6904}} via signaling, and if both mechanisms are supported, either one can be used for any given packet. However, if a packet is encrypted with Cryptex, it MUST NOT also use {{RFC6904}} header extension encryption, and vice versa.
 
 Both enpoints can change the Cryptex support status by modifying the session as specified in  {{!RFC3264}} section 8. Generating subsequent SDP offers and answers MUST use the same procedures for including the "a=cryptex" attribute as the ones on the initial offer and answer.
 
@@ -180,6 +178,10 @@ be negotiated, as the value of this id is meant to be contained in the "appbits"
 "defined by profile" field, which are not available when using the values above.
 
 Note that as per {{!RFC8285}} it is not possible to mix one-byte and two-byte headers on the same RTP packet. Mixing one-byte and two-byte headers on the same RTP stream requires negotiation of the "extmap-allow-mixed" SDP attribute as defined in {{!RFC8285}} section 4.1.2.
+
+Peers MAY negotiate both Cryptex and the Encryption of Header Extensions mechanism defined in {{RFC6904}} via SPD offer/answer as described in {{sdp-considerations}}, and if both mechanisms are supported, either one can be used for any given packet. However, if a packet is encrypted with Cryptex, it MUST NOT also use {{RFC6904}} header extension encryption, and vice versa.
+
+If one of the peers has advertised both the ability to receive cryptex and the ability to receive header extensions encrypted as per {{RFC6904}} in the SDP exchange, it is RECOMMENDED for the other peer to use Cryptex rather than {{RFC6904}} when sending RTP packets so all the header extensions and CSRCS are encrypted unless there is a compelling reason to use {{RFC6904}} (e.g. a need for some header extensions to be sent in the clear so that so they are processable by RTP middleboxes) in which case, it SHOULD use {{RFC6904}} instead.
 
 ## Sending
 
