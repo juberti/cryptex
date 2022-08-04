@@ -129,7 +129,7 @@ From the previous analysis, the desired properties of a solution are:
 - Backward compatible with unencrypted endpoints, if desired
 - Backward compatible with existing RTP tooling
 
-The last point deserves further discussion. While considering possible solutions that would have encrypted more of the RTP header (e.g., the number of CSRCs), lack of support on current tools was inevitable and the additional complexity outweighed the slight improvement in confidentiality by fixing previous solutions. Hence, new approach was needed to solve the described problem in {{problem-statement}}.
+The last point deserves further discussion. While considering possible solutions that would have encrypted more of the RTP header (e.g., the number of CSRCs), lack of support on current tools was inevitable and the additional complexity outweighed the slight improvement in confidentiality by fixing previous solutions. Hence, a new approach was needed to solve the described problem in {{problem-statement}}.
 
 Terminology
 ===========
@@ -145,7 +145,7 @@ reuses the existing SRTP framework, is accordingly simple to implement, and
 is backward compatible with existing RTP packet parsing code, even when
 support for the mechanism has been negotiated.
 
-Except when explicity stated otherwise, Cryptex reuses all the framework procedures, transforms and considerations described in {{!RFC3711}}.
+Except when explicitly stated otherwise, Cryptex reuses all the framework procedures, transforms and considerations described in {{!RFC3711}}.
 
 SDP Considerations {#sdp-considerations}
 =========
@@ -161,7 +161,7 @@ Once each peer has verified that the other party supports receiving RTP packets 
 
 If BUNDLE is in use as per {{?RFC9143}} and the "a=cryptex" attribute is present for a media line, it MUST be present for all RTP-based "m=" sections belonging to the same bundle group. This ensures that the encrypted MID header extensions can be processed, allowing to associate RTP streams with the correct "m=" section in each BUNDLE group as specified in {{!RFC9143}} section 9.2. When used with BUNDLE, this attribute is assigned to the TRANSPORT category {{RFC8859}}.
 
-Both enpoints can change the Cryptex support status by modifying the session as specified in  {{!RFC3264}} section 8. Generating subsequent SDP offers and answers MUST use the same procedures for including the "a=cryptex" attribute as the ones on the initial offer and answer.
+Both endpoints can change the Cryptex support status by modifying the session as specified in  {{!RFC3264}} section 8. Generating subsequent SDP offers and answers MUST use the same procedures for including the "a=cryptex" attribute as the ones on the initial offer and answer.
 
 RTP Header Processing
 =====================
@@ -179,7 +179,7 @@ be negotiated, as the value of this id is meant to be contained in the "appbits"
 
 Note that as per {{!RFC8285}} it is not possible to mix one-byte and two-byte headers on the same RTP packet. Mixing one-byte and two-byte headers on the same RTP stream requires negotiation of the "extmap-allow-mixed" SDP attribute as defined in {{!RFC8285}} section 4.1.2.
 
-Peers MAY negotiate both Cryptex and the Encryption of Header Extensions mechanism defined in {{RFC6904}} via SPD offer/answer as described in {{sdp-considerations}}, and if both mechanisms are supported, either one can be used for any given packet. However, if a packet is encrypted with Cryptex, it MUST NOT also use {{RFC6904}} header extension encryption, and vice versa.
+Peers MAY negotiate both Cryptex and the Encryption of Header Extensions mechanism defined in {{RFC6904}} via SDP offer/answer as described in {{sdp-considerations}}, and if both mechanisms are supported, either one can be used for any given packet. However, if a packet is encrypted with Cryptex, it MUST NOT also use {{RFC6904}} header extension encryption, and vice versa.
 
 If one of the peers has advertised both the ability to receive cryptex and the ability to receive header extensions encrypted as per {{RFC6904}} in the SDP exchange, it is RECOMMENDED for the other peer to use Cryptex rather than {{RFC6904}} when sending RTP packets so all the header extensions and CSRCS are encrypted unless there is a compelling reason to use {{RFC6904}} (e.g. a need for some header extensions to be sent in the clear so that so they are processable by RTP middleboxes) in which case, it SHOULD use {{RFC6904}} instead.
 
@@ -354,7 +354,7 @@ Security Considerations
 =======================
 
 
-All security considerations in {{!RFC3711}} section 9 are applicable to this specification, except section 9.4. Confidentiality of the RTP Header which is the pourpose of this specification.
+All security considerations in {{!RFC3711}} section 9 are applicable to this specification, except section 9.4. Confidentiality of the RTP Header which is the purpose of this specification.
 
 The risks of using weak or NULL authentication with SRTP, described in Section 9.5 of {{!RFC3711}}, apply to encrypted header extensions as well.
 
@@ -831,3 +831,5 @@ Encrypted RTP Packet:
         8b5207d8
 
 --- back
+
+
